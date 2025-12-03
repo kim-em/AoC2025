@@ -9,6 +9,7 @@ Downloads:
 - Puzzle input to data/dayXX.txt
 - Updates puzzle-status.json
 """
+from __future__ import annotations
 
 import argparse
 import json

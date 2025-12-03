@@ -7,6 +7,7 @@ Usage: python tools/aoc_status.py [--json] [--sync]
 Shows which days/parts are solved, pending, or locked.
 Identifies the next puzzle to work on.
 """
+from __future__ import annotations
 
 import argparse
 import json

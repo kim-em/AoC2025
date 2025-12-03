@@ -12,6 +12,7 @@ This will:
 5. Save it to .aoc-session
 6. Verify the cookie works
 """
+from __future__ import annotations
 
 import argparse
 import sys
