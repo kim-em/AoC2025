@@ -26,14 +26,28 @@ lake exe aoc2025 1
   - `DayXX/Basic.lean` - Parsing and data structures
 - `data/` - Input files (not committed, add your own)
   - `dayXX.txt` - Input for day XX
+- `tools/` - Helper scripts for puzzle management
 - `Main.lean` - CLI entry point
+
+## Tools
+
+Helper scripts for fetching puzzles, submitting answers, and scaffolding new days:
+
+```bash
+./tools/aoc_status.py          # Check solved/pending puzzles
+./tools/aoc_fetch.py <day>     # Download puzzle description and input
+./tools/setup_day.py <day>     # Scaffold Lean files for a new day
+./tools/aoc_submit.py <day> <part> <answer>  # Submit an answer
+./tools/aoc_login.py           # Configure AoC session cookie
+```
 
 ## Adding a New Day
 
-1. Create `AoC2025/DayXX.lean` and `AoC2025/DayXX/Basic.lean`
-2. Add `import AoC2025.DayXX` to `AoC2025.lean`
-3. Add case to `runDay` in `Main.lean`
-4. Put your input in `data/dayXX.txt`
+```bash
+./tools/setup_day.py <day>
+```
+
+This creates the Lean files and updates imports automatically.
 
 Or use the setup tool: `python tools/setup_day.py <day>`
 

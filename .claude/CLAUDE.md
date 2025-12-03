@@ -7,7 +7,7 @@ This file provides instructions for Claude to work autonomously on Advent of Cod
 When starting a new session to work on AoC:
 
 1. **Read progress log**: `cat claude-progress.md` to understand previous work
-2. **Check status**: `python tools/aoc_status.py` to see solved/pending puzzles
+2. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
 3. **Check git status**: Verify no uncommitted work from previous sessions
 4. **Identify next task**: The status tool shows the next unsolved puzzle
 
@@ -16,7 +16,7 @@ When starting a new session to work on AoC:
 ### Fetching a Puzzle
 
 ```bash
-python tools/aoc_fetch.py <day>
+./tools/aoc_fetch.py <day>
 ```
 
 This downloads:
@@ -28,7 +28,7 @@ This downloads:
 If the Lean files don't exist yet:
 
 ```bash
-python tools/setup_day.py <day>
+./tools/setup_day.py <day>
 ```
 
 This creates:
@@ -47,7 +47,7 @@ This creates:
 ### Submitting an Answer
 
 ```bash
-python tools/aoc_submit.py <day> <part> <answer>
+./tools/aoc_submit.py <day> <part> <answer>
 ```
 
 Exit codes:
@@ -146,14 +146,14 @@ AoC rate-limits submissions:
 
 ```bash
 # Check where we are
-python tools/aoc_status.py
+./tools/aoc_status.py
 # Output: Next: Day 3 Part 1
 
 # Fetch the puzzle
-python tools/aoc_fetch.py 3
+./tools/aoc_fetch.py 3
 
 # Set up Lean files if needed
-python tools/setup_day.py 3
+./tools/setup_day.py 3
 
 # Read and understand the puzzle
 cat puzzles/day03.md
@@ -165,7 +165,7 @@ cat puzzles/day03.md
 lake exe aoc2025 3
 
 # Submit
-python tools/aoc_submit.py 3 1 "12345"
+./tools/aoc_submit.py 3 1 "12345"
 
 # If correct, commit
 git add -A

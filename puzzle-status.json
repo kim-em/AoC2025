@@ -1,5 +1,15 @@
 {
   "year": 2025,
-  "days": {},
-  "last_updated": null
+  "days": {
+    "1": {
+      "part1": {
+        "status": "pending",
+        "attempts": 0
+      },
+      "part2": {
+        "status": "locked"
+      }
+    }
+  },
+  "last_updated": "2025-12-03T04:47:13.623655Z"
 }
