@@ -3,3 +3,4 @@
 
 import AoC2025.Basic
 import AoC2025.Day01
+import AoC2025.Day02
