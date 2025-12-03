@@ -12,7 +12,8 @@ PROJECT_ROOT = Path(__file__).parent.parent
 TOOLS_DIR = PROJECT_ROOT / "tools"
 DATA_DIR = PROJECT_ROOT / "data"
 PUZZLES_DIR = PROJECT_ROOT / "puzzles"
-SESSION_FILE = PROJECT_ROOT / ".aoc-session"
+GLOBAL_SESSION_FILE = Path.home() / ".config" / "aoc" / "session"
+LOCAL_SESSION_FILE = PROJECT_ROOT / ".aoc-session"
 STATUS_FILE = PROJECT_ROOT / "puzzle-status.json"
 PROGRESS_FILE = PROJECT_ROOT / "claude-progress.md"
 
@@ -26,17 +27,18 @@ PUZZLES_DIR.mkdir(exist_ok=True)
 
 
 def get_session_cookie() -> str | None:
-    """Load session cookie from file."""
-    if SESSION_FILE.exists():
-        return SESSION_FILE.read_text().strip()
+    """Load session cookie from file. Checks .aoc-session first, then ~/.config/aoc/session."""
+    for path in [LOCAL_SESSION_FILE, GLOBAL_SESSION_FILE]:
+        if path.exists():
+            return path.read_text().strip()
     return None
 
 
 def save_session_cookie(cookie: str) -> None:
     """Save session cookie to file."""
-    SESSION_FILE.write_text(cookie + "\n")
+    LOCAL_SESSION_FILE.write_text(cookie + "\n")
     # Make file readable only by owner
-    SESSION_FILE.chmod(0o600)
+    LOCAL_SESSION_FILE.chmod(0o600)
 
 
 def get_puzzle_status() -> dict:
