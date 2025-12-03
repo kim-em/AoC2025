@@ -1,2 +1,13 @@
 /.lake
 /data/*.txt
+
+# AoC session cookie (secret)
+.aoc-session
+
+# Puzzle descriptions (AoC TOS - don't redistribute)
+/puzzles/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
