@@ -73,14 +73,30 @@ def removeRolls (grid : Array (Array Char)) (positions : List (Nat × Nat)) : Ar
       else g
     else g) grid
 
-/-- Repeatedly remove accessible rolls until none remain, return total removed -/
-partial def removeAllAccessible (grid : Array (Array Char)) (totalRemoved : Nat) : Nat :=
+/-- Count total number of rolls (@) in the grid -/
+def countRolls (grid : Array (Array Char)) : Nat :=
+  grid.foldl (fun acc row => acc + row.foldl (fun a c => if c == '@' then a + 1 else a) 0) 0
+
+/-- Removing accessible rolls decreases the roll count -/
+theorem removeRolls_decreases_count (grid : Array (Array Char)) (accessible : List (Nat × Nat))
+    (hne : ¬accessible.isEmpty) (hacc : accessible = findAccessible grid) :
+    countRolls (removeRolls grid accessible) < countRolls grid := by
+  sorry  -- Requires proving that findAccessible returns positions of actual rolls
+
+/-- Repeatedly remove accessible rolls until none remain, return total removed.
+    Termination: each iteration removes at least one roll, so countRolls decreases. -/
+def removeAllAccessible (grid : Array (Array Char)) (totalRemoved : Nat) : Nat :=
   let accessible := findAccessible grid
-  if accessible.isEmpty then
+  if h_empty : accessible.isEmpty then
     totalRemoved
   else
     let newGrid := removeRolls grid accessible
+    have _hne : ¬accessible.isEmpty := h_empty  -- Used in decreasing_by
     removeAllAccessible newGrid (totalRemoved + accessible.length)
+termination_by countRolls grid
+decreasing_by
+  simp_wf
+  exact removeRolls_decreases_count grid accessible _hne rfl
 
 -- Part 2
 def part2 (input : String) : String :=
