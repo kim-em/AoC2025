@@ -12,3 +12,8 @@ Each session's work is logged here for continuity across sessions.
 - [2025-12-03 16:01] Day 2 Part 2: `73694270688` → correct
 - [2025-12-03 16:03] Day 3 Part 1: `17207` → correct
 - [2025-12-03 16:04] Day 3 Part 2: `170997883706617` → correct
+
+## 2025-12-04
+
+- [2025-12-04 18:02] Day 4 Part 1: `1372` → correct
+- [2025-12-04 18:03] Day 4 Part 2: `7922` → correct
