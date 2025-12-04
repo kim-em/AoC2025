@@ -133,10 +133,35 @@ theorem repeated_digits_eq_mult (base d k : Nat) (hd : d > 0) (hk : k ≥ 2)
     base * repMultiplier d k = base * ((10 ^ (d * k) - 1) / (10 ^ d - 1)) := by
   sorry
 
+/-- Sum of 0 + 1 + ... + (n-1) equals n*(n-1)/2 (doubled to avoid division).
+    Note: Proof requires ring/linarith tactics not available in this project. -/
+theorem sum_range_doubled (n : Nat) :
+    2 * (List.range n).foldl (· + ·) 0 = n * (n - 1) := by
+  sorry  -- Requires ring/linarith for inductive step
+
+/-- Arithmetic sum formula: Σ_{i=0}^{n-1} i = n * (n - 1) / 2 -/
+theorem sum_range_eq (n : Nat) :
+    (List.range n).foldl (· + ·) 0 = n * (n - 1) / 2 := by
+  have h := sum_range_doubled n
+  omega
+
+/-- Helper: decompose sum with offset into sum without offset -/
+theorem sum_with_offset (n a : Nat) :
+    (List.range n).foldl (fun acc i => acc + (a + i)) 0 =
+    a * n + (List.range n).foldl (· + ·) 0 := by
+  sorry  -- Requires ring/linarith for inductive step
+
+/-- Arithmetic sum formula (doubled to avoid division issues):
+    2 * Σ_{i=a}^{b} i = (b - a + 1) * (a + b) -/
+theorem arith_sum_formula_doubled (a b : Nat) (hab : a ≤ b) :
+    2 * (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 = (b - a + 1) * (a + b) := by
+  sorry  -- Depends on sum_with_offset and sum_range_doubled
+
 /-- Arithmetic sum formula: Σ_{i=a}^{b} i = (b - a + 1) * (a + b) / 2 -/
 theorem arith_sum_formula (a b : Nat) (hab : a ≤ b) :
     (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 = (b - a + 1) * (a + b) / 2 := by
-  sorry
+  have h := arith_sum_formula_doubled a b hab
+  omega
 
 /-- For Part 1: isInvalid n iff n = base * repMultiplier d 2 for some valid d and base. -/
 theorem isInvalid_iff_repeated_twice (n : Nat) (hn : n > 0) :
