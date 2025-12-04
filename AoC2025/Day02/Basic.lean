@@ -37,43 +37,40 @@ def parseRanges (input : String) : List Range :=
   let trimmed := input.trim.dropRightWhile (· == ',')
   trimmed.splitOn "," |>.filterMap parseRange?
 
-/-- Compute sum of invalid numbers for a given k (digit half-length) in range -/
-def sumInvalidForK (r : Range) (k : Nat) : Nat :=
-  let multiplier := Nat.pow 10 k + 1  -- e.g., k=1 → 11, k=2 → 101, k=3 → 1001
-  let baseMin := if k == 1 then 1 else Nat.pow 10 (k - 1)  -- e.g., k=1 → 1, k=2 → 10, k=3 → 100
-  let baseMax := Nat.pow 10 k - 1  -- e.g., k=1 → 9, k=2 → 99, k=3 → 999
-  -- Invalid numbers of 2k digits are: multiplier * base for base in [baseMin, baseMax]
-  -- We need: r.lo ≤ multiplier * base ≤ r.hi
-  -- So: ceil(r.lo / multiplier) ≤ base ≤ floor(r.hi / multiplier)
-  let minBase := (r.lo + multiplier - 1) / multiplier  -- ceiling division
-  let maxBase := r.hi / multiplier  -- floor division
-  -- Clamp to valid range for this digit count
+/-- Compute (10^(d*k) - 1) / (10^d - 1) - multiplier for base of d digits repeated k times.
+    E.g., repMultiplier 2 3 = 10101 (so 12 repeated 3 times = 12 * 10101 = 121212) -/
+def repMultiplier (d k : Nat) : Nat :=
+  (Nat.pow 10 (d * k) - 1) / (Nat.pow 10 d - 1)
+
+/-- Sum of numbers in range [r.lo, r.hi] that are a d-digit base repeated k times.
+    Uses closed-form arithmetic sum formula instead of iteration. -/
+def sumRepetitionsInRange (r : Range) (d k : Nat) : Nat :=
+  let mult := repMultiplier d k
+  -- Valid bases for d digits: [10^(d-1), 10^d - 1], except d=1 uses [1, 9]
+  let baseMin := if d == 1 then 1 else Nat.pow 10 (d - 1)
+  let baseMax := Nat.pow 10 d - 1
+  -- Find bases where mult * base falls in [r.lo, r.hi]
+  let minBase := (r.lo + mult - 1) / mult  -- ceiling division
+  let maxBase := r.hi / mult               -- floor division
   let actualMin := max minBase baseMin
   let actualMax := min maxBase baseMax
   if actualMin ≤ actualMax then
-    -- Sum of multiplier * base for base in [actualMin, actualMax]
-    -- = multiplier * (actualMin + actualMin+1 + ... + actualMax)
-    -- = multiplier * (sum from actualMin to actualMax)
-    -- = multiplier * (actualMax - actualMin + 1) * (actualMin + actualMax) / 2
+    -- Sum of mult * base for base in [actualMin, actualMax]
+    -- = mult * Σ base = mult * (count * (actualMin + actualMax) / 2)
     let count := actualMax - actualMin + 1
     let sumBases := count * (actualMin + actualMax) / 2
-    multiplier * sumBases
+    mult * sumBases
   else
     0
 
-/-- Find all invalid IDs in a range and sum them (Part 1: exactly doubled) -/
+/-- Find all invalid IDs in a range and sum them (Part 1: exactly doubled).
+    Invalid = d-digit base repeated exactly 2 times, for various d. -/
 def sumInvalidInRange (r : Range) : Nat :=
-  -- We need to find invalid numbers in [r.lo, r.hi]
-  -- Invalid numbers have even digit counts, so we can be smarter
-  -- For each even digit count, invalid numbers are: aa, abab, abcabc, etc.
-  -- They form: n * (10^k + 1) where k = number of digits in n
-  -- For 2 digits: 11, 22, ..., 99 = 11*1, 11*2, ..., 11*9
-  -- For 4 digits: 1010, 1111, 1212, ..., 9999 = 101*10, 101*11, ..., 101*99
-  -- For 6 digits: 100100, ..., 999999 = 1001*100, ..., 1001*999
-  -- Pattern: for 2k digits, multiplier is (10^k + 1), base ranges from 10^(k-1) to 10^k - 1
-  List.range 11 |>.drop 1 |>.foldl (fun acc k => acc + sumInvalidForK r k) 0
+  -- For each base digit count d in [1, 10], sum numbers with d-digit base repeated twice
+  List.range 11 |>.drop 1 |>.foldl (fun acc d => acc + sumRepetitionsInRange r d 2) 0
 
-/-- Check if a number is invalid for Part 2 (repeated at least twice) -/
+/-- Check if a number is invalid for Part 2 (repeated at least twice).
+    Used for testing/validation, not in the actual solution. -/
 def isInvalidPart2 (n : Nat) : Bool :=
   let s := toString n
   let len := s.length
@@ -82,34 +79,13 @@ def isInvalidPart2 (n : Nat) : Bool :=
     if len % d == 0 && len / d >= 2 then
       let rep := len / d
       let base := s.take d
-      -- Check if all rep copies equal the base
       List.range rep |>.all fun i =>
-        s.extract ⟨i * d⟩ ⟨(i + 1) * d⟩ == base
+        (s.toSubstring.extract ⟨i * d⟩ ⟨(i + 1) * d⟩).toString == base
     else false
 
-/-- Compute (10^d - 1) / (10^d - 1) style multiplier for base of d digits repeated k times -/
-def repMultiplier (d k : Nat) : Nat :=
-  -- Number is base * (10^(d*(k-1)) + 10^(d*(k-2)) + ... + 1)
-  -- = base * sum_{i=0}^{k-1} 10^(d*i)
-  -- = base * (10^(d*k) - 1) / (10^d - 1)
-  (Nat.pow 10 (d * k) - 1) / (Nat.pow 10 d - 1)
-
-/-- For Part 2: sum invalid numbers with d-digit base repeated k times in range -/
-def sumInvalidForDK (r : Range) (d k : Nat) : Nat :=
-  let mult := repMultiplier d k
-  let baseMin := if d == 1 then 1 else Nat.pow 10 (d - 1)
-  let baseMax := Nat.pow 10 d - 1
-  let minBase := (r.lo + mult - 1) / mult  -- ceiling
-  let maxBase := r.hi / mult
-  let actualMin := max minBase baseMin
-  let actualMax := min maxBase baseMax
-  if actualMin ≤ actualMax then
-    let count := actualMax - actualMin + 1
-    let sumBases := count * (actualMin + actualMax) / 2
-    mult * sumBases
-  else 0
-
-/-- Collect all invalid numbers in range for Part 2, avoiding double counting -/
+/-- Collect all invalid numbers in range for Part 2, avoiding double counting.
+    A number can match multiple (d, k) patterns (e.g., 111111 = 1 repeated 6 times
+    or 111 repeated twice), so we collect all matches and deduplicate. -/
 def collectInvalidPart2 (r : Range) : List Nat := Id.run do
   let mut result : List Nat := []
   -- For each total digit count n in range 2..20
