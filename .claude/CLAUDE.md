@@ -6,7 +6,8 @@ This file provides instructions for Claude to work autonomously on Advent of Cod
 
 When starting a new session to work on AoC:
 
-1. **Read progress log**: `cat claude-progress.md` to understand previous work
+0. **Log session start**: Add entry to `claude-progress.md`: `## YYYY-MM-DD HH:MM - Session started`
+1. **Read progress log**: Review `claude-progress.md` to understand previous work
 2. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
 3. **Check git status**: Verify no uncommitted work from previous sessions
 4. **Identify next task**: The status tool shows the next unsolved puzzle
@@ -81,6 +82,70 @@ git add -A
 git commit -m "Day 03 Part 1: Calculate sum of valid numbers (answer: 12345)"
 ```
 
+## Post-Solve Workflow
+
+After successfully submitting both parts for a day, continue with verification work:
+
+### Phase A: Review & Refactor
+- Review code for reusable components
+- Factor out generally useful utilities to `AoC2025/Basic.lean`
+- Generalize constructions where beneficial (without breaking the solution)
+- Log: `Day XX: Refactored [description]`
+- Commit: `Day XX: Refactor [description]`
+
+### Phase B: Specification
+- Write verification theorems specifying function behavior
+- Focus on: algorithm correctness, termination, key invariants
+- First pass: write theorem statements with `sorry` proofs
+- Log: `Day XX: Added specifications [list theorem names]`
+- Commit: `Day XX: Add specification theorems`
+
+### Phase C: Proof
+- Work through sorries, completing proofs
+- Build up from simpler helper lemmas
+- **Effort bound**: Try a few approaches per theorem. If stuck, move on and note it in the log.
+- Log: `Day XX: Proved [theorem names]` or `Day XX: Stuck on [theorem] - [brief reason]`
+- Commit after completing proofs: `Day XX: Prove [theorems]`
+
+### Phase D: Proof Cleanup
+- Review successful proofs for simplification
+- Extract helper lemmas that are generally useful
+- Combine redundant steps, test if `simp` can do more
+- Log: `Day XX: Simplified proofs`
+- Commit: `Day XX: Simplify proofs`
+
+### Phase E: Upstream Identification
+- Identify content potentially useful for Mathlib or lean4
+- Create/update `AoC2025/DayXX/UPSTREAMING.md` with:
+  - What could be upstreamed
+  - Why it's useful beyond AoC
+  - Current location in codebase
+- Update root `UPSTREAMING.md` with one-line summary if any upstream candidates exist
+- Log: `Day XX: Identified upstream candidates` (or skip if none)
+
+**Constraint**: All verification work must relate to solving the day's problem. No novel material for its own sake.
+
+### Logging Format
+
+Each phase should add an entry to `claude-progress.md`:
+```
+- [HH:MM] Day XX Phase Y: description
+```
+
+## Backlog Management
+
+Days 1-4 were solved before the verification workflow was established and need upgrading.
+
+**Priority**: New puzzles take precedence over backlog work.
+
+**Backlog order**: Work on most promising candidates first. Based on current solutions:
+1. **Day 2** (highest priority) - Sophisticated arithmetic algorithms, good verification targets
+2. **Day 4** - Has `partial` function, termination proof candidate
+3. **Day 3** - Greedy algorithm correctness
+4. **Day 1** - Modular arithmetic properties
+
+When no new puzzles are available, work through backlog starting from Phase A.
+
 ## Tool Creation
 
 You are encouraged to create additional helper tools as needed:
@@ -139,37 +204,55 @@ AoC rate-limits submissions:
 | `data/dayXX.txt` | Puzzle input |
 | `AoC2025/DayXX.lean` | Solution code |
 | `AoC2025/DayXX/Basic.lean` | Parsing/helpers |
+| `AoC2025/DayXX/UPSTREAMING.md` | Upstream candidates for this day |
 | `puzzle-status.json` | Tracks solved status |
 | `claude-progress.md` | Activity log |
+| `UPSTREAMING.md` | Summary of all upstream candidates |
 
 ## Example Session
 
 ```bash
+# === Session Start ===
+# Log start time to claude-progress.md
+echo "## $(date '+%Y-%m-%d %H:%M') - Session started" >> claude-progress.md
+
 # Check where we are
 ./tools/aoc_status.py
-# Output: Next: Day 3 Part 1
+# Output: Next: Day 5 Part 1
 
-# Fetch the puzzle
-./tools/aoc_fetch.py 3
-
-# Set up Lean files if needed
-./tools/setup_day.py 3
+# === Solve Phase ===
+./tools/aoc_fetch.py 5
+./tools/setup_day.py 5
 
 # Read and understand the puzzle
-cat puzzles/day03.md
+cat puzzles/day05.md
 
-# Implement solution...
-# (edit AoC2025/Day03.lean)
+# Implement solution in AoC2025/Day05.lean
+# Test with: lake exe aoc2025 5
 
-# Test
-lake exe aoc2025 3
+# Submit part 1
+./tools/aoc_submit.py 5 1 "12345"
+git add -A && git commit -m "Day 05 Part 1: [description]"
 
-# Submit
-./tools/aoc_submit.py 3 1 "12345"
+# Solve and submit part 2 similarly...
 
-# If correct, commit
-git add -A
-git commit -m "Day 03 Part 1: Find sum of gear ratios"
+# === Post-Solve: Phase A - Refactor ===
+# Review code, extract reusable utilities
+# Log progress, then commit
+git commit -m "Day 05: Refactor parsing utilities"
 
-# Continue to part 2...
+# === Post-Solve: Phase B - Specification ===
+# Add theorem statements with sorry
+git commit -m "Day 05: Add specification theorems"
+
+# === Post-Solve: Phase C - Proof ===
+# Complete proofs (or note stuck points in log)
+git commit -m "Day 05: Prove correctness theorems"
+
+# === Post-Solve: Phase D - Cleanup ===
+# Simplify proofs, extract helper lemmas
+git commit -m "Day 05: Simplify proofs"
+
+# === Post-Solve: Phase E - Upstream ===
+# If anything is generally useful, document in UPSTREAMING.md
 ```
