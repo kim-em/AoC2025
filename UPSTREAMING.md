@@ -1,0 +1,8 @@
+# AoC 2025 Upstream Candidates
+
+Summary of potentially useful code that could be contributed to Mathlib or lean4.
+
+## Day 02: Gift Shop Product IDs
+
+- **repMultiplier**: Geometric series sum for digit repetition patterns
+- See `AoC2025/Day02/UPSTREAMING.md` for details
