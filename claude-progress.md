@@ -19,3 +19,4 @@ Each session's work is logged here for continuity across sessions.
 - [2025-12-04 18:03] Day 4 Part 2: `7922` → correct
 ## 2025-12-04 18:35 - Session started
 - [18:36] Day 02 Phase A: Unified repMultiplier and sumRepetitionsInRange functions, removed duplicate code, fixed deprecation warning
+- [18:38] Day 02 Phase B: Added 9 specification theorems (geomSum_eq, repMultiplier_eq_geomSum, repeated_digits_eq_mult, arith_sum_formula, isInvalid_iff_repeated_twice, isInvalidPart2_iff_repeated, sumRepetitionsInRange_correct, sumInvalidInRange_correct, sumInvalidInRangePart2_correct)

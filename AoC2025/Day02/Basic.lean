@@ -112,4 +112,73 @@ def sumInvalidInRangePart2 (r : Range) : Nat :=
   let invalid := collectInvalidPart2 r
   invalid.foldl (· + ·) 0
 
+/-! ## Specification Theorems -/
+
+/-- The geometric series sum formula: Σ_{i=0}^{k-1} r^i = (r^k - 1) / (r - 1) for r > 1.
+    This justifies the `repMultiplier` formula. -/
+theorem geomSum_eq (r : Nat) (k : Nat) (hr : r > 1) :
+    (List.range k).foldl (fun acc i => acc + r ^ i) 0 = (r ^ k - 1) / (r - 1) := by
+  sorry
+
+/-- repMultiplier computes the geometric series sum with base 10^d. -/
+theorem repMultiplier_eq_geomSum (d k : Nat) (hd : d > 0) :
+    repMultiplier d k = (List.range k).foldl (fun acc i => acc + (10 ^ d) ^ i) 0 := by
+  sorry
+
+/-- A number formed by repeating a d-digit base k times equals base * repMultiplier d k. -/
+theorem repeated_digits_eq_mult (base d k : Nat) (hd : d > 0) (hk : k ≥ 2)
+    (hbase : 10 ^ (d - 1) ≤ base ∧ base < 10 ^ d) :
+    -- The number formed by concatenating base with itself k times
+    -- equals base * repMultiplier d k
+    base * repMultiplier d k = base * ((10 ^ (d * k) - 1) / (10 ^ d - 1)) := by
+  sorry
+
+/-- Arithmetic sum formula: Σ_{i=a}^{b} i = (b - a + 1) * (a + b) / 2 -/
+theorem arith_sum_formula (a b : Nat) (hab : a ≤ b) :
+    (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 = (b - a + 1) * (a + b) / 2 := by
+  sorry
+
+/-- For Part 1: isInvalid n iff n = base * repMultiplier d 2 for some valid d and base. -/
+theorem isInvalid_iff_repeated_twice (n : Nat) (hn : n > 0) :
+    isInvalid n = true ↔
+    ∃ d base, d > 0 ∧ (if d = 1 then 1 else 10 ^ (d - 1)) ≤ base ∧ base < 10 ^ d ∧
+              n = base * repMultiplier d 2 := by
+  sorry
+
+/-- For Part 2: isInvalidPart2 n iff n = base * repMultiplier d k for some valid d, k ≥ 2, base. -/
+theorem isInvalidPart2_iff_repeated (n : Nat) (hn : n > 0) :
+    isInvalidPart2 n = true ↔
+    ∃ d k base, d > 0 ∧ k ≥ 2 ∧ (if d = 1 then 1 else 10 ^ (d - 1)) ≤ base ∧ base < 10 ^ d ∧
+                n = base * repMultiplier d k := by
+  sorry
+
+/-- sumRepetitionsInRange correctly sums all numbers n in [r.lo, r.hi]
+    where n = base * repMultiplier d k for a valid d-digit base. -/
+theorem sumRepetitionsInRange_correct (r : Range) (d k : Nat) (hd : d > 0) (hk : k ≥ 2) :
+    sumRepetitionsInRange r d k =
+    ((List.range (10 ^ d - (if d = 1 then 1 else 10 ^ (d - 1)))).filterMap (fun i =>
+      let base := (if d = 1 then 1 else 10 ^ (d - 1)) + i
+      let n := base * repMultiplier d k
+      if r.lo ≤ n ∧ n ≤ r.hi then some n else none
+    )).foldl (· + ·) 0 := by
+  sorry
+
+/-- Part 1 correctness: sumInvalidInRange sums exactly the invalid numbers in the range. -/
+theorem sumInvalidInRange_correct (r : Range) :
+    sumInvalidInRange r =
+    ((List.range (r.hi - r.lo + 1)).filterMap (fun i =>
+      let n := r.lo + i
+      if isInvalid n then some n else none
+    )).foldl (· + ·) 0 := by
+  sorry
+
+/-- Part 2 correctness: sumInvalidInRangePart2 sums exactly the Part 2 invalid numbers. -/
+theorem sumInvalidInRangePart2_correct (r : Range) :
+    sumInvalidInRangePart2 r =
+    ((List.range (r.hi - r.lo + 1)).filterMap (fun i =>
+      let n := r.lo + i
+      if isInvalidPart2 n then some n else none
+    )).foldl (· + ·) 0 := by
+  sorry
+
 end AoC2025.Day02
