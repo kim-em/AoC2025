@@ -104,4 +104,47 @@ def part2 (input : String) : String :=
   let total := removeAllAccessible grid 0
   toString total
 
+/-! ## Specification Theorems -/
+
+/-- A position is accessible iff it contains @ and has < 4 adjacent @ neighbors -/
+theorem isAccessible_spec (grid : Array (Array Char)) (r c : Int) :
+    isAccessible grid r c = true ↔
+    (getAt grid r c = '@' ∧ countAdjacentRolls grid r c < 4) := by
+  simp only [isAccessible, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
+
+/-- findAccessible returns exactly the positions that satisfy isAccessible -/
+theorem findAccessible_spec (grid : Array (Array Char)) :
+    ∀ p ∈ findAccessible grid, isAccessible grid p.1 p.2 = true := by
+  sorry  -- Requires proving the imperative loop correctly collects accessible positions
+
+/-- Positions in findAccessible are valid grid positions with '@' -/
+theorem findAccessible_valid (grid : Array (Array Char)) :
+    ∀ p ∈ findAccessible grid,
+    p.1 < grid.size ∧ (∀ (h : p.1 < grid.size), p.2 < grid[p.1].size ∧ getAt grid p.1 p.2 = '@') := by
+  sorry  -- Requires reasoning about the loop bounds
+
+/-- countAccessibleRolls equals length of findAccessible -/
+theorem countAccessibleRolls_eq_findAccessible_length (grid : Array (Array Char)) :
+    countAccessibleRolls grid = (findAccessible grid).length := by
+  sorry  -- Both compute the same thing via imperative loops
+
+/-- removeRolls replaces '@' with '.' at given positions -/
+theorem removeRolls_effect (grid : Array (Array Char)) (positions : List (Nat × Nat))
+    (r c : Nat) (hr : r < grid.size) (hc : c < grid[r].size) :
+    let newGrid := removeRolls grid positions
+    getAt newGrid r c = (if (r, c) ∈ positions then '.' else getAt grid r c) := by
+  sorry  -- Requires reasoning about Array.set!
+
+/-- After removeRolls, countRolls decreases by the number of valid roll positions removed -/
+theorem removeRolls_countRolls (grid : Array (Array Char)) (positions : List (Nat × Nat))
+    (h : ∀ p ∈ positions, p.1 < grid.size ∧ (∀ (hr : p.1 < grid.size), p.2 < grid[p.1].size)
+         ∧ getAt grid p.1 p.2 = '@') :
+    countRolls (removeRolls grid positions) + positions.length = countRolls grid := by
+  sorry  -- Each position in the list removes exactly one roll
+
+/-- Part 2 correctness: removeAllAccessible counts all rolls that can eventually be removed -/
+theorem removeAllAccessible_total (grid : Array (Array Char)) :
+    removeAllAccessible grid 0 ≤ countRolls grid := by
+  sorry  -- Can't remove more rolls than exist
+
 end AoC2025.Day04
