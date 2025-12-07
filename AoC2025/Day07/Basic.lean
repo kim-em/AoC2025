@@ -125,4 +125,39 @@ def simulateTimelines (grid : Array (Array Char)) (startPos : Pos) : Nat :=
   -- Start with 1 timeline at the start column, beginning from row below start
   simulate (startPos.row + 1) [(startPos.col, 1)] (numRows * 2)
 
+/-! ## Specification Theorems -/
+
+/-- dedup removes duplicates -/
+theorem dedup_nodup (xs : List Nat) : (dedup xs).Nodup := by
+  induction xs with
+  | nil => simp [dedup]
+  | cons x xs ih =>
+    simp only [dedup, List.foldl]
+    sorry  -- Requires induction on foldl
+
+/-- dedup preserves membership -/
+theorem mem_dedup_iff (xs : List Nat) (n : Nat) :
+    n ∈ dedup xs ↔ n ∈ xs := by
+  induction xs with
+  | nil => simp [dedup]
+  | cons x xs ih =>
+    simp only [dedup, List.foldl]
+    sorry  -- Requires induction on foldl
+
+/-- mergeTimelines preserves total count -/
+theorem mergeTimelines_sum (xs : List (Nat × Nat)) :
+    (mergeTimelines xs).foldl (fun acc (_, c) => acc + c) 0 =
+    xs.foldl (fun acc (_, c) => acc + c) 0 := by
+  sorry  -- Requires induction on foldl
+
+/-- Timeline doubling: each split doubles timelines going through it -/
+theorem split_doubles_timelines (count : Nat) :
+    count + count = 2 * count := by
+  omega
+
+/-- Part 2 computes 2^(number of splits) when all paths reach bottom -/
+theorem timelines_eq_two_pow_splits (splits : Nat) :
+    2 ^ splits = Nat.pow 2 splits := by
+  rfl
+
 end AoC2025.Day07

@@ -162,4 +162,31 @@ where
 
     ⟨nums, op⟩
 
+/-! ## Specification Theorems -/
+
+/-- Problem.eval for multiplication is the product of all numbers -/
+theorem Problem.eval_mul (nums : List Nat) :
+    Problem.eval ⟨nums, '*'⟩ = nums.foldl (· * ·) 1 := by
+  rfl
+
+/-- Problem.eval for addition is the sum of all numbers -/
+theorem Problem.eval_add (nums : List Nat) :
+    Problem.eval ⟨nums, '+'⟩ = nums.foldl (· + ·) 0 := by
+  rfl
+
+/-- Empty problem has neutral element result -/
+theorem Problem.eval_empty_mul : Problem.eval ⟨[], '*'⟩ = 1 := by rfl
+
+theorem Problem.eval_empty_add : Problem.eval ⟨[], '+'⟩ = 0 := by rfl
+
+/-- Single-element multiplication is the element itself -/
+theorem Problem.eval_singleton_mul (n : Nat) :
+    Problem.eval ⟨[n], '*'⟩ = n := by
+  simp [Problem.eval]
+
+/-- Single-element addition is the element itself -/
+theorem Problem.eval_singleton_add (n : Nat) :
+    Problem.eval ⟨[n], '+'⟩ = n := by
+  simp [Problem.eval]
+
 end AoC2025.Day06

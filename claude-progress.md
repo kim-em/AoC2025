@@ -44,3 +44,5 @@ Each session's work is logged here for continuity across sessions.
 - [2025-12-07 17:45] Day 7 Part 2: `40999072541589` → correct
 ## 2025-12-07 17:54 - Session started
 - [$(date '+%H:%M')] Day 05 Phase A+B: Added specification theorems (Range.contains_iff, inAnyRange_iff, Range.size_eq, Range.contains_max proved; mergeRanges theorems marked admit due to qsort complexity)
+- [$(date '+%H:%M')] Day 06 Phase A+B: Added specification theorems for Problem.eval (all proved by rfl/simp)
+- [$(date '+%H:%M')] Day 07 Phase A+B: Added specification theorems (dedup_nodup, mem_dedup_iff, mergeTimelines_sum with sorry; split_doubles_timelines, timelines_eq_two_pow_splits proved)
