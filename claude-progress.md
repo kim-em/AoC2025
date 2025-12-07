@@ -43,8 +43,8 @@ Each session's work is logged here for continuity across sessions.
 - [2025-12-07 17:43] Day 7 Part 1: `1640` → correct
 - [2025-12-07 17:45] Day 7 Part 2: `40999072541589` → correct
 ## 2025-12-07 17:54 - Session started
-- [$(date '+%H:%M')] Day 05 Phase A+B: Added specification theorems (Range.contains_iff, inAnyRange_iff, Range.size_eq, Range.contains_max proved; mergeRanges theorems marked admit due to qsort complexity)
-- [$(date '+%H:%M')] Day 06 Phase A+B: Added specification theorems for Problem.eval (all proved by rfl/simp)
-- [$(date '+%H:%M')] Day 07 Phase A+B: Added specification theorems (dedup_nodup, mem_dedup_iff, mergeTimelines_sum with sorry; split_doubles_timelines, timelines_eq_two_pow_splits proved)
-- [$(date '+%H:%M')] Day 01 Phase B: Added specification theorems (applyRotation_lt_100, applyRotation_zero_dist, applyRotation_left_100, applyRotation_right_100, countZeroCrossings variants - all proved)
-- [$(date '+%H:%M')] Day 03 Phase B: Added specification theorems (charToDigit examples proved, maxJoltage_empty/singleton proved, maxJoltage_le_99 and maxJoltageK_greedy with sorry)
+- [18:02] Day 05 Phase A+B: Added specification theorems (Range.contains_iff, inAnyRange_iff, Range.size_eq, Range.contains_max proved; mergeRanges theorems marked admit due to qsort complexity)
+- [18:02] Day 06 Phase A+B: Added specification theorems for Problem.eval (all proved by rfl/simp)
+- [18:02] Day 07 Phase A+B: Added specification theorems (dedup_nodup, mem_dedup_iff, mergeTimelines_sum with sorry; split_doubles_timelines, timelines_eq_two_pow_splits proved)
+- [18:02] Day 01 Phase B: Added specification theorems (applyRotation_lt_100, applyRotation_zero_dist, applyRotation_left_100, applyRotation_right_100, countZeroCrossings variants - all proved)
+- [18:02] Day 03 Phase B: Added specification theorems (charToDigit examples proved, maxJoltage_empty/singleton proved, maxJoltage_le_99 and maxJoltageK_greedy with sorry)
