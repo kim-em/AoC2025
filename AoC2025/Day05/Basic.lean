@@ -88,8 +88,8 @@ theorem Range.contains_max (r1 r2 : Range) (n : Nat)
 theorem mergeRanges_preserves_coverage (ranges : List Range) (n : Nat) :
     (mergeRanges ranges).any (·.contains n) = ranges.any (·.contains n) := by
   -- This theorem requires proving qsort is a permutation and fold invariants
-  -- Marking as admit for now - the algorithm correctness is validated by AoC answers
-  admit
+  -- Algorithm correctness is validated by AoC answers; proof requires qsort reasoning
+  sorry
 
 /-- mergeRanges produces non-overlapping ranges (disjoint when non-adjacent) -/
 theorem mergeRanges_disjoint (ranges : List Range) :
@@ -97,7 +97,7 @@ theorem mergeRanges_disjoint (ranges : List Range) :
     ∀ (i j : Nat) (hi : i < merged.length) (hj : j < merged.length),
       i < j → (merged[i]'hi).hi + 1 < (merged[j]'hj).lo := by
   -- Requires reasoning about fold maintaining gap invariant after sorting
-  admit
+  sorry
 
 /-- mergeRanges produces sorted ranges -/
 theorem mergeRanges_sorted (ranges : List Range) :
@@ -105,7 +105,7 @@ theorem mergeRanges_sorted (ranges : List Range) :
     ∀ (i j : Nat) (hi : i < merged.length) (hj : j < merged.length),
       i < j → (merged[i]'hi).hi < (merged[j]'hj).lo := by
   -- Follows from mergeRanges_disjoint (gaps imply ordering)
-  admit
+  sorry
 
 /-- countFreshIds computes the sum of range sizes -/
 theorem countFreshIds_eq_sum (ranges : List Range) :

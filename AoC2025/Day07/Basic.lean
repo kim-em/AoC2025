@@ -132,7 +132,7 @@ theorem dedup_nodup (xs : List Nat) : (dedup xs).Nodup := by
   -- The proof requires showing that the foldl maintains the invariant:
   -- acc.Nodup ∧ ∀ x ∈ xs_remaining, x ∉ acc → will be added exactly once
   -- This is standard but requires careful induction over the fold.
-  admit
+  sorry
 
 /-- dedup preserves membership -/
 theorem mem_dedup_iff (xs : List Nat) (n : Nat) :
@@ -140,7 +140,7 @@ theorem mem_dedup_iff (xs : List Nat) (n : Nat) :
   -- The proof requires showing the foldl invariant:
   -- n ∈ result ↔ n ∈ processed_elements
   -- where processed_elements grows as we traverse the input.
-  admit
+  sorry
 
 /-- mergeTimelines preserves total count -/
 theorem mergeTimelines_sum (xs : List (Nat × Nat)) :
@@ -149,7 +149,7 @@ theorem mergeTimelines_sum (xs : List (Nat × Nat)) :
   -- The proof requires showing the foldl invariant:
   -- total count in result = total count in processed pairs
   -- Key insight: when merging, we add counts (n + count) preserving totals
-  admit
+  sorry
 
 /-- Timeline doubling: each split doubles timelines going through it -/
 theorem split_doubles_timelines (count : Nat) :

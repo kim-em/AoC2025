@@ -79,7 +79,7 @@ theorem maxJoltage_le_99 (bank : List Nat) (h : ∀ d ∈ bank, d ≤ 9) :
   -- when all array elements are ≤ 9.
   -- This is difficult to prove directly for the imperative Id.run loop.
   -- The key insight: val = arr[i]! * 10 + arr[j]! ≤ 9*10 + 9 = 99
-  admit
+  sorry
 
 /-- maxJoltageK greedy property: each selected digit is maximal among remaining choices -/
 theorem maxJoltageK_greedy (bank : List Nat) (k : Nat)
@@ -89,6 +89,6 @@ theorem maxJoltageK_greedy (bank : List Nat) (k : Nat)
   -- digit at each step from the available positions. If any digit > 0 exists,
   -- the first selected digit will be > 0, so the result > 0.
   -- This is difficult to prove for the imperative while loop.
-  admit
+  sorry
 
 end AoC2025.Day03

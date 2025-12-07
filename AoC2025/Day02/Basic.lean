@@ -200,7 +200,7 @@ theorem isInvalid_iff_repeated_twice (n : Nat) (hn : n > 0) :
   -- Requires proving equivalence between string-based isInvalid
   -- and the algebraic characterization. The key challenge is reasoning
   -- about toString n and showing string equality matches numeric structure.
-  admit
+  sorry
 
 /-- For Part 2: isInvalidPart2 n iff n = base * repMultiplier d k for some valid d, k ≥ 2, base. -/
 theorem isInvalidPart2_iff_repeated (n : Nat) (hn : n > 0) :
@@ -208,7 +208,7 @@ theorem isInvalidPart2_iff_repeated (n : Nat) (hn : n > 0) :
     ∃ d k base, d > 0 ∧ k ≥ 2 ∧ (if d = 1 then 1 else 10 ^ (d - 1)) ≤ base ∧ base < 10 ^ d ∧
                 n = base * repMultiplier d k := by
   -- Similar to isInvalid_iff_repeated_twice but for arbitrary repetitions.
-  admit
+  sorry
 
 -- Note: Aristotle produced a proof but it times out on v4.24.1.
 -- The proof involves complex Finset manipulations.
@@ -224,7 +224,7 @@ theorem sumRepetitionsInRange_correct (r : Range) (d k : Nat) (hd : d > 0) (hk :
     )).foldl (· + ·) 0 := by
   -- Aristotle generated a proof that times out. The proof involves
   -- showing the closed-form sum equals iterating over all valid bases.
-  admit
+  sorry
 
 -- NOTE: The following two theorems are FALSE as stated!
 -- The implementations have bounded digit counts, so they miss very large invalid numbers.
@@ -242,7 +242,7 @@ theorem sumInvalidInRange_correct (r : Range) :
     )).foldl (· + ·) 0 := by
   -- FALSE: The implementation is bounded to d ≤ 10.
   -- Would need hypothesis: r.hi < 10^20 (max 10-digit base repeated twice)
-  admit
+  sorry
 
 /-- Part 2 correctness: sumInvalidInRangePart2 sums exactly the Part 2 invalid numbers.
 
@@ -257,6 +257,6 @@ theorem sumInvalidInRangePart2_correct (r : Range) :
     )).foldl (· + ·) 0 := by
   -- FALSE: The implementation is bounded to total digit count ≤ 20.
   -- Would need hypothesis: r.hi < 10^20
-  admit
+  sorry
 
 end AoC2025.Day02

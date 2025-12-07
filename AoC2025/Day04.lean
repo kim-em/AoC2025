@@ -85,7 +85,7 @@ theorem removeRolls_decreases_count (grid : Array (Array Char)) (accessible : Li
   -- Key steps: 1) findAccessible_valid shows all positions have '@'
   --            2) removeRolls_countRolls gives the decrease
   --            3) hne ensures at least one position is removed
-  admit
+  sorry
 
 /-- Repeatedly remove accessible rolls until none remain, return total removed.
     Termination: each iteration removes at least one roll, so countRolls decreases. -/
@@ -122,20 +122,20 @@ theorem findAccessible_spec (grid : Array (Array Char)) :
   -- Requires proving the imperative loop correctly collects accessible positions
   -- The loop invariant would be: result contains exactly those (r, c) from
   -- already-visited positions where isAccessible grid r c = true
-  admit
+  sorry
 
 /-- Positions in findAccessible are valid grid positions with '@' -/
 theorem findAccessible_valid (grid : Array (Array Char)) :
     ∀ p ∈ findAccessible grid,
     p.1 < grid.size ∧ (∀ (h : p.1 < grid.size), p.2 < grid[p.1].size ∧ getAt grid p.1 p.2 = '@') := by
   -- Follows from findAccessible_spec + isAccessible_spec + definition of getAt
-  admit
+  sorry
 
 /-- countAccessibleRolls equals length of findAccessible -/
 theorem countAccessibleRolls_eq_findAccessible_length (grid : Array (Array Char)) :
     countAccessibleRolls grid = (findAccessible grid).length := by
   -- Both compute the same thing via imperative loops with identical structure
-  admit
+  sorry
 
 /-- removeRolls replaces '@' with '.' at given positions -/
 theorem removeRolls_effect (grid : Array (Array Char)) (positions : List (Nat × Nat))
@@ -143,7 +143,7 @@ theorem removeRolls_effect (grid : Array (Array Char)) (positions : List (Nat ×
     let newGrid := removeRolls grid positions
     getAt newGrid r c = (if (r, c) ∈ positions then '.' else getAt grid r c) := by
   -- Requires reasoning about Array.set! and List.foldl over positions
-  admit
+  sorry
 
 /-- After removeRolls, countRolls decreases by the number of valid roll positions removed -/
 theorem removeRolls_countRolls (grid : Array (Array Char)) (positions : List (Nat × Nat))
@@ -151,7 +151,7 @@ theorem removeRolls_countRolls (grid : Array (Array Char)) (positions : List (Na
          ∧ getAt grid p.1 p.2 = '@') :
     countRolls (removeRolls grid positions) + positions.length = countRolls grid := by
   -- Each position in the list removes exactly one roll (assuming positions are distinct)
-  admit
+  sorry
 
 /-- Part 2 correctness: removeAllAccessible counts all rolls that can eventually be removed -/
 theorem removeAllAccessible_total (grid : Array (Array Char)) :
@@ -159,6 +159,6 @@ theorem removeAllAccessible_total (grid : Array (Array Char)) :
   -- The proof would need strong induction on countRolls and the fact that
   -- removeRolls_decreases_count holds. This is an interesting termination property
   -- but requires careful invariant reasoning about the accumulator.
-  admit
+  sorry
 
 end AoC2025.Day04
