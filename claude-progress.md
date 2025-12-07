@@ -62,3 +62,12 @@ Each session's work is logged here for continuity across sessions.
   - Day07: 3 admits (foldl induction)
   - Total: 21 admits, 0 sorries remaining
   - All FALSE theorems documented with counterexamples
+
+## 2025-12-07 19:10 - Prompting fixes session
+
+Fixed several issues with Aristotle workflow prompting:
+- Clarified `sorry` vs `admit`: `admit` only in temp files for Aristotle, never in committed code
+- Fixed temp file naming: use `_pending.lean` since Aristotle outputs to `*_aristotle.lean`
+- Made Aristotle mandatory: Phase C now says "send to Aristotle" not "move on" when stuck
+- Added "Handling False Theorems" section: must fix false theorems, not just add FIXMEs
+- Reverted all 21 `admit` back to `sorry` across 5 files (Day02-07)
