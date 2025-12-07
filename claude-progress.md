@@ -36,3 +36,7 @@ Each session's work is logged here for continuity across sessions.
 - [2025-12-07 17:35] Day 5 Part 2: `354143734113772` → correct
 - [17:30] Day 05 Part 1: `868` → correct
 - [17:31] Day 05 Part 2: `354143734113772` → correct
+- [2025-12-07 17:38] Day 6 Part 1: `5227286044585` → correct
+- [2025-12-07 17:40] Day 6 Part 2: `10227753257799` → correct
+- [17:35] Day 06 Part 1: `5227286044585` → correct
+- [17:36] Day 06 Part 2: `10227753257799` → correct
