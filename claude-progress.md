@@ -46,3 +46,5 @@ Each session's work is logged here for continuity across sessions.
 - [$(date '+%H:%M')] Day 05 Phase A+B: Added specification theorems (Range.contains_iff, inAnyRange_iff, Range.size_eq, Range.contains_max proved; mergeRanges theorems marked admit due to qsort complexity)
 - [$(date '+%H:%M')] Day 06 Phase A+B: Added specification theorems for Problem.eval (all proved by rfl/simp)
 - [$(date '+%H:%M')] Day 07 Phase A+B: Added specification theorems (dedup_nodup, mem_dedup_iff, mergeTimelines_sum with sorry; split_doubles_timelines, timelines_eq_two_pow_splits proved)
+- [$(date '+%H:%M')] Day 01 Phase B: Added specification theorems (applyRotation_lt_100, applyRotation_zero_dist, applyRotation_left_100, applyRotation_right_100, countZeroCrossings variants - all proved)
+- [$(date '+%H:%M')] Day 03 Phase B: Added specification theorems (charToDigit examples proved, maxJoltage_empty/singleton proved, maxJoltage_le_99 and maxJoltageK_greedy with sorry)

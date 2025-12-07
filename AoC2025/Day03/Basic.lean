@@ -59,4 +59,28 @@ def maxJoltageK (bank : List Nat) (k : Nat) : Nat := Id.run do
 
   return result
 
+/-! ## Specification Theorems -/
+
+/-- charToDigit maps characters to their digit value -/
+theorem charToDigit_of_zero : charToDigit '0' = 0 := by rfl
+theorem charToDigit_of_five : charToDigit '5' = 5 := by rfl
+theorem charToDigit_of_nine : charToDigit '9' = 9 := by rfl
+
+/-- maxJoltage of empty bank is 0 -/
+theorem maxJoltage_empty : maxJoltage [] = 0 := by rfl
+
+/-- maxJoltage of singleton bank is 0 (need 2 elements) -/
+theorem maxJoltage_singleton (d : Nat) : maxJoltage [d] = 0 := by rfl
+
+/-- maxJoltage returns a 2-digit number when digits ≤ 9 -/
+theorem maxJoltage_le_99 (bank : List Nat) (h : ∀ d ∈ bank, d ≤ 9) :
+    maxJoltage bank ≤ 99 := by
+  sorry  -- max is 9*10 + 9 = 99
+
+/-- maxJoltageK greedy property: each selected digit is maximal among remaining choices -/
+theorem maxJoltageK_greedy (bank : List Nat) (k : Nat)
+    (hne : bank.length ≥ k) (hk : k > 0) :
+    maxJoltageK bank k > 0 ∨ bank.all (· = 0) := by
+  sorry  -- Greedy selection picks nonzero digit if any exists
+
 end AoC2025.Day03

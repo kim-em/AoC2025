@@ -39,4 +39,52 @@ def countZeroCrossings (pos : Nat) (rot : Rotation) : Nat :=
     else if rot.dist >= pos then 1 + (rot.dist - pos) / 100
     else 0
 
+/-! ## Specification Theorems -/
+
+/-- applyRotation always returns a value in [0, 100) -/
+theorem applyRotation_lt_100 (pos : Nat) (rot : Rotation) :
+    applyRotation pos rot < 100 := by
+  unfold applyRotation
+  cases rot.dir <;> simp [Nat.mod_lt]
+
+/-- applyRotation with 0 distance is identity (mod 100) -/
+theorem applyRotation_zero_dist (pos : Nat) (dir : Direction) :
+    applyRotation pos ⟨dir, 0⟩ = pos % 100 := by
+  unfold applyRotation
+  cases dir <;> simp
+
+/-- Left rotation by 100 is identity for positions < 100 -/
+theorem applyRotation_left_100 (pos : Nat) (hpos : pos < 100) :
+    applyRotation pos ⟨Direction.left, 100⟩ = pos := by
+  unfold applyRotation
+  simp [Nat.mod_eq_of_lt hpos]
+
+/-- Right rotation by 100 is identity for positions < 100 -/
+theorem applyRotation_right_100 (pos : Nat) (hpos : pos < 100) :
+    applyRotation pos ⟨Direction.right, 100⟩ = pos := by
+  unfold applyRotation
+  simp [Nat.mod_eq_of_lt hpos]
+
+/-- countZeroCrossings for right rotation -/
+theorem countZeroCrossings_right (pos : Nat) (dist : Nat) :
+    countZeroCrossings pos ⟨Direction.right, dist⟩ = (pos + dist) / 100 := by
+  rfl
+
+/-- countZeroCrossings for left rotation when pos = 0 -/
+theorem countZeroCrossings_left_pos0 (dist : Nat) :
+    countZeroCrossings 0 ⟨Direction.left, dist⟩ = dist / 100 := by
+  rfl
+
+/-- countZeroCrossings for left rotation when dist < pos -/
+theorem countZeroCrossings_left_small (pos : Nat) (dist : Nat) (hpos : pos ≠ 0) (hlt : dist < pos) :
+    countZeroCrossings pos ⟨Direction.left, dist⟩ = 0 := by
+  unfold countZeroCrossings
+  simp [hpos, Nat.not_le.mpr hlt]
+
+/-- countZeroCrossings for left rotation when dist ≥ pos -/
+theorem countZeroCrossings_left_large (pos : Nat) (dist : Nat) (hpos : pos ≠ 0) (hge : dist ≥ pos) :
+    countZeroCrossings pos ⟨Direction.left, dist⟩ = 1 + (dist - pos) / 100 := by
+  unfold countZeroCrossings
+  simp [hpos, hge]
+
 end AoC2025.Day01
