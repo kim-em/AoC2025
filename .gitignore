@@ -12,3 +12,6 @@ __pycache__/
 *.pyc
 .venv/
 .envrc
+
+# Claude Code local settings
+.claude/settings.local.json
