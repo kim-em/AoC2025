@@ -25,3 +25,9 @@ Each session's work is logged here for continuity across sessions.
 - [18:47] Day 04 Phase A: Converted partial def to termination proof structure with countRolls, added removeRolls_decreases_count theorem
 - [18:48] Day 04 Phase B: Added 7 specification theorems (isAccessible_spec, findAccessible_spec/valid, countAccessibleRolls_eq, removeRolls_effect/countRolls, removeAllAccessible_total)
 - [18:49] Day 04 Phase E: Documented fixpoint termination pattern as potential upstream
+
+## 2025-12-07 17:00 - Session started
+- [17:00] Continued from previous session (context recovery)
+- [17:15] Updated CLAUDE.md with Aristotle workflow documentation
+- [17:20] Created ARISTOTLE.md for tracking prover jobs
+- [17:25] Archived Claude conversation logs to claude-logs/
