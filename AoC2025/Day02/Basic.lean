@@ -226,37 +226,32 @@ theorem sumRepetitionsInRange_correct (r : Range) (d k : Nat) (hd : d > 0) (hk :
   -- showing the closed-form sum equals iterating over all valid bases.
   sorry
 
--- NOTE: The following two theorems are FALSE as stated!
--- The implementations have bounded digit counts, so they miss very large invalid numbers.
+-- The following two theorems require bounded hypotheses since the implementations
+-- only check up to 10-digit bases (20 total digits).
 
 /-- Part 1 correctness: sumInvalidInRange sums exactly the invalid numbers in the range.
-
-    FALSE as stated! Counterexample: r = ⟨10^21 + 10^10, 10^21 + 10^10⟩
-    sumInvalidInRange only checks d in [1, 10], missing 11+ digit bases (22+ total digits).
-    This is fine for AoC where inputs are bounded, but not a general correctness theorem. -/
-theorem sumInvalidInRange_correct (r : Range) :
+    Requires range to be bounded: r.hi < 10^20 (max 10-digit base repeated twice). -/
+theorem sumInvalidInRange_correct (r : Range) (h_bounded : r.hi < 10 ^ 20) :
     sumInvalidInRange r =
     ((List.range (r.hi - r.lo + 1)).filterMap (fun i =>
       let n := r.lo + i
       if isInvalid n then some n else none
     )).foldl (· + ·) 0 := by
-  -- FALSE: The implementation is bounded to d ≤ 10.
-  -- Would need hypothesis: r.hi < 10^20 (max 10-digit base repeated twice)
+  -- The implementation iterates d in [1, 10], covering all valid bases
+  -- for numbers < 10^20. Each d-digit base repeated twice has 2d digits,
+  -- so max is d=10 → 20 digits, which is within bounds.
   sorry
 
 /-- Part 2 correctness: sumInvalidInRangePart2 sums exactly the Part 2 invalid numbers.
-
-    FALSE as stated! Counterexample: r = ⟨repMultiplier 1 21, repMultiplier 1 21⟩
-    where repMultiplier 1 21 = 111...1 (21 ones).
-    collectInvalidPart2 only checks digit counts up to 20, missing 21+ digit numbers. -/
-theorem sumInvalidInRangePart2_correct (r : Range) :
+    Requires range to be bounded: r.hi < 10^20 (max 20-digit number). -/
+theorem sumInvalidInRangePart2_correct (r : Range) (h_bounded : r.hi < 10 ^ 20) :
     sumInvalidInRangePart2 r =
     ((List.range (r.hi - r.lo + 1)).filterMap (fun i =>
       let n := r.lo + i
       if isInvalidPart2 n then some n else none
     )).foldl (· + ·) 0 := by
-  -- FALSE: The implementation is bounded to total digit count ≤ 20.
-  -- Would need hypothesis: r.hi < 10^20
+  -- The implementation checks digit counts up to 20, which covers all
+  -- numbers < 10^20. Each (d, k) combination produces d*k total digits.
   sorry
 
 end AoC2025.Day02

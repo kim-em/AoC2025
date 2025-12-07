@@ -1,6 +1,7 @@
 /-
   # Day 07: Laboratories - Tachyon Manifold Simulation
 -/
+import Mathlib
 import AoC2025.Basic
 
 namespace AoC2025.Day07
@@ -18,8 +19,8 @@ def parseGrid (input : String) : (Array (Array Char) × Pos) :=
   -- Find 'S' position
   let startPos := Id.run do
     for r in [:grid.size] do
-      for c in [:grid[r]!.size] do
-        if grid[r]![c]! == 'S' then
+      for c in [:(grid[r]!).size] do
+        if (grid[r]!)[c]! == 'S' then
           return Pos.mk r c
     return Pos.mk 0 0
   (grid, startPos)
@@ -129,18 +130,29 @@ def simulateTimelines (grid : Array (Array Char)) (startPos : Pos) : Nat :=
 
 /-- dedup removes duplicates -/
 theorem dedup_nodup (xs : List Nat) : (dedup xs).Nodup := by
-  -- The proof requires showing that the foldl maintains the invariant:
-  -- acc.Nodup ∧ ∀ x ∈ xs_remaining, x ∉ acc → will be added exactly once
-  -- This is standard but requires careful induction over the fold.
-  sorry
+  unfold dedup
+  induction xs using List.reverseRecOn with
+  | nil => simp
+  | append_singleton l a ih =>
+    simp only [List.foldl_append, List.foldl_cons, List.foldl_nil]
+    split_ifs with h
+    · exact ih
+    · rw [List.nodup_append]
+      refine ⟨ih, List.nodup_singleton a, ?_⟩
+      intro x hx
+      simp only [List.mem_singleton]
+      intro b hb
+      subst hb
+      rw [List.contains_eq_any_beq] at h
+      simp only [List.any_eq_true, beq_iff_eq, not_exists, not_and] at h
+      intro hxa
+      exact h x hx hxa.symm
 
 /-- dedup preserves membership -/
 theorem mem_dedup_iff (xs : List Nat) (n : Nat) :
     n ∈ dedup xs ↔ n ∈ xs := by
-  -- The proof requires showing the foldl invariant:
-  -- n ∈ result ↔ n ∈ processed_elements
-  -- where processed_elements grows as we traverse the input.
-  sorry
+  simp [dedup]
+  induction xs using List.reverseRecOn <;> aesop
 
 /-- mergeTimelines preserves total count -/
 theorem mergeTimelines_sum (xs : List (Nat × Nat)) :
