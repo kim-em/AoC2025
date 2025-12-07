@@ -42,3 +42,5 @@ Each session's work is logged here for continuity across sessions.
 - [17:36] Day 06 Part 2: `10227753257799` → correct
 - [2025-12-07 17:43] Day 7 Part 1: `1640` → correct
 - [2025-12-07 17:45] Day 7 Part 2: `40999072541589` → correct
+## 2025-12-07 17:54 - Session started
+- [$(date '+%H:%M')] Day 05 Phase A+B: Added specification theorems (Range.contains_iff, inAnyRange_iff, Range.size_eq, Range.contains_max proved; mergeRanges theorems marked admit due to qsort complexity)

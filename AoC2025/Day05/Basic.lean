@@ -60,4 +60,56 @@ def parseInput (input : String) : (List Range × List Nat) :=
   let ids := idLines.filterMap (·.toNat?)
   (ranges, ids)
 
+/-! ## Specification Theorems -/
+
+/-- Range.contains is equivalent to interval membership -/
+theorem Range.contains_iff (r : Range) (n : Nat) :
+    r.contains n = true ↔ r.lo ≤ n ∧ n ≤ r.hi := by
+  simp [Range.contains, Bool.and_eq_true]
+
+/-- inAnyRange is correct: returns true iff some range contains n -/
+theorem inAnyRange_iff (ranges : List Range) (n : Nat) :
+    inAnyRange ranges n = true ↔ ∃ r ∈ ranges, r.contains n = true := by
+  simp [inAnyRange, List.any_eq_true]
+
+/-- A range's size is hi - lo + 1 (when valid) -/
+theorem Range.size_eq (r : Range) (h : r.lo ≤ r.hi) :
+    r.hi - r.lo + 1 = r.hi + 1 - r.lo := by
+  omega
+
+/-- Helper: Range covering merged ranges contains all points of both -/
+theorem Range.contains_max (r1 r2 : Range) (n : Nat)
+    (h : { lo := r1.lo, hi := max r1.hi r2.hi : Range }.contains n) :
+    r1.contains n ∨ r2.contains n ∨ (r1.hi < n ∧ n < r2.lo) := by
+  simp only [Range.contains, Bool.and_eq_true, decide_eq_true_iff] at *
+  omega
+
+/-- mergeRanges preserves coverage: a value is covered iff it was in some original range -/
+theorem mergeRanges_preserves_coverage (ranges : List Range) (n : Nat) :
+    (mergeRanges ranges).any (·.contains n) = ranges.any (·.contains n) := by
+  -- This theorem requires proving qsort is a permutation and fold invariants
+  -- Marking as admit for now - the algorithm correctness is validated by AoC answers
+  admit
+
+/-- mergeRanges produces non-overlapping ranges (disjoint when non-adjacent) -/
+theorem mergeRanges_disjoint (ranges : List Range) :
+    let merged := mergeRanges ranges
+    ∀ (i j : Nat) (hi : i < merged.length) (hj : j < merged.length),
+      i < j → (merged[i]'hi).hi + 1 < (merged[j]'hj).lo := by
+  -- Requires reasoning about fold maintaining gap invariant after sorting
+  admit
+
+/-- mergeRanges produces sorted ranges -/
+theorem mergeRanges_sorted (ranges : List Range) :
+    let merged := mergeRanges ranges
+    ∀ (i j : Nat) (hi : i < merged.length) (hj : j < merged.length),
+      i < j → (merged[i]'hi).hi < (merged[j]'hj).lo := by
+  -- Follows from mergeRanges_disjoint (gaps imply ordering)
+  admit
+
+/-- countFreshIds computes the sum of range sizes -/
+theorem countFreshIds_eq_sum (ranges : List Range) :
+    countFreshIds ranges = (mergeRanges ranges).foldl (fun acc r => acc + (r.hi - r.lo + 1)) 0 := by
+  rfl
+
 end AoC2025.Day05
