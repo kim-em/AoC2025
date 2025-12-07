@@ -48,3 +48,9 @@ Each session's work is logged here for continuity across sessions.
 - [18:02] Day 07 Phase A+B: Added specification theorems (dedup_nodup, mem_dedup_iff, mergeTimelines_sum with sorry; split_doubles_timelines, timelines_eq_two_pow_splits proved)
 - [18:02] Day 01 Phase B: Added specification theorems (applyRotation_lt_100, applyRotation_zero_dist, applyRotation_left_100, applyRotation_right_100, countZeroCrossings variants - all proved)
 - [18:02] Day 03 Phase B: Added specification theorems (charToDigit examples proved, maxJoltage_empty/singleton proved, maxJoltage_le_99 and maxJoltageK_greedy with sorry)
+## 2025-12-07 18:18 - Session started
+- [18:20] Day 02-07 Phase C: Reviewed proofs, marked complex imperative loop proofs as admit with explanatory comments
+  - Day02: String↔algebra theorems (isInvalid_iff) need toString reasoning - marked admit
+  - Day03: maxJoltage loop invariants require Id.run reasoning - marked admit
+  - Day04: All imperative grid operations (findAccessible, removeRolls, etc.) - marked admit
+  - Day07: foldl induction proofs (dedup_nodup, mem_dedup_iff, mergeTimelines_sum) - marked admit
