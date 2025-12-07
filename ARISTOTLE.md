@@ -8,6 +8,8 @@ Tracking automated theorem proving jobs sent to Aristotle.
 |------------|------|-----------|-------------|
 | 561b974a-48b2-46d1-ade1-5ff8b4c6ccc5 | Day03/Basic_pending1.lean | 2025-12-07 19:28 | maxJoltage_le_99 |
 | fdaf2c6f-2fbd-43cc-a3c0-bc1fa664d991 | Day03/Basic_pending2.lean | 2025-12-07 19:28 | maxJoltageK_greedy |
+| 9ec97a0d-68c1-477f-8ad5-19c1cd20a976 | Day04_pending1.lean | 2025-12-07 20:10 | findAccessible_spec |
+| 7ab8e2d0-dced-4d28-9cd8-c1899d709674 | Day05_pending1.lean | 2025-12-07 20:10 | mergeRanges_preserves_coverage |
 
 ## Completed
 

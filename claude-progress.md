@@ -76,3 +76,5 @@ Fixed several issues with Aristotle workflow prompting:
 - [19:41] Day07: Incorporated 2 Aristotle proofs (dedup_nodup, mem_dedup_iff). 1 sorry remaining.
 ## 2025-12-07 20:01 - Session started
 - [20:05] Day 07 Phase C: Incorporated mergeTimelines_sum proof from Aristotle (needs maxHeartbeats 800000 for v4.24.1)
+- [20:10] Submitted 2 more theorems to Aristotle: Day04 findAccessible_spec, Day05 mergeRanges_preserves_coverage
+- [20:15] Checking Day03 jobs - still in progress
