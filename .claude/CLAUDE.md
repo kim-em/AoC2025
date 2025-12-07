@@ -160,10 +160,22 @@ Before writing new proofs, first check `ARISTOTLE.md` for completed jobs:
 1. For any pending jobs, check their status via the Aristotle API
 2. Download completed results and incorporate them:
    - Copy successful proofs into the original file
-   - Add FIXME comments for false theorems (with counterexample explanation)
-   - Add notes for theorems Aristotle couldn't prove
+   - For theorems Aristotle couldn't prove: add notes explaining why, keep `sorry`
+   - **For FALSE theorems**: see "Handling False Theorems" below
 3. Move completed jobs from "Pending" to "Completed" with a summary
 4. Delete the `*_aristotle.lean` output files after incorporation
+
+### Handling False Theorems
+
+When Aristotle proves a theorem is **false** (provides a counterexample), you must fix it:
+
+1. **Understand the counterexample** - Aristotle shows why the theorem fails
+2. **Decide which is wrong** - either:
+   - **The specification is wrong**: Your theorem doesn't capture what you meant. Revise the theorem statement to correctly specify the behavior.
+   - **The implementation is wrong**: The code doesn't match the intended spec. Fix the implementation (but verify it still solves the AoC puzzle!).
+3. **Fix and re-verify** - After changes, the theorem should be provable (send back to Aristotle if needed)
+
+**Do not leave false theorems in the codebase.** Either fix them or delete them entirely if the property isn't actually needed.
 
 ### When to Send to Aristotle
 
