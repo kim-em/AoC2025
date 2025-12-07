@@ -8,9 +8,10 @@ When starting a new session to work on AoC:
 
 0. **Log session start**: Add entry to `claude-progress.md`: `## YYYY-MM-DD HH:MM - Session started`
 1. **Read progress log**: Review `claude-progress.md` to understand previous work
-2. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
-3. **Check git status**: Verify no uncommitted work from previous sessions
-4. **Identify next task**: The status tool shows the next unsolved puzzle
+2. **Check Aristotle jobs**: Review `ARISTOTLE.md` for pending jobs, download and incorporate any completed results
+3. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
+4. **Check git status**: Verify no uncommitted work from previous sessions
+5. **Identify next task**: The status tool shows the next unsolved puzzle
 
 ## Core Workflow
 
@@ -125,6 +126,68 @@ After successfully submitting both parts for a day, continue with verification w
 
 **Constraint**: All verification work must relate to solving the day's problem. No novel material for its own sake.
 
+## Using Aristotle for Proofs
+
+Aristotle is an automated theorem prover that can fill in `sorry` placeholders. Use the `aristotle` skill for full documentation.
+
+### ARISTOTLE.md Tracking
+
+Maintain an `ARISTOTLE.md` file at the project root with two sections:
+
+```markdown
+# Aristotle Jobs
+
+## Pending
+
+| Project ID | File | Submitted | Description |
+|------------|------|-----------|-------------|
+| abc123... | Day02/Basic.lean | 2025-12-07 14:30 | Specification theorems |
+
+## Completed
+
+| Project ID | File | Result | Notes |
+|------------|------|--------|-------|
+| def456... | Day01/Basic.lean | 3/5 proved | 2 false (see FIXMEs) |
+```
+
+### Session Startup
+
+When starting proof work (Phase C), first check `ARISTOTLE.md`:
+1. For any pending jobs, check their status via the Aristotle API
+2. Download completed results and incorporate them:
+   - Copy successful proofs into the original file
+   - Add FIXME comments for false theorems (with counterexample explanation)
+   - Add notes for theorems Aristotle couldn't prove
+3. Move completed jobs from "Pending" to "Completed" with a summary
+4. Delete the `*_aristotle.lean` output files after incorporation
+
+### When to Send to Aristotle
+
+Send proofs to Aristotle when:
+- You've tried a few approaches and are stuck
+- You have specification theorems with `sorry` that need filling
+- You're ending a session with unfinished proofs
+
+**Important**: Only one `sorry` per file. Before sending:
+```lean
+-- Change this:
+theorem foo : ... := by sorry
+theorem bar : ... := by sorry  -- also needs proving
+
+-- To this:
+theorem foo : ... := by sorry  -- Aristotle will work on this
+theorem bar : ... := by admit  -- Aristotle will ignore this
+```
+
+### Async Workflow
+
+Never wait for Aristotle to finish. After submitting:
+1. Record the project ID in `ARISTOTLE.md` under "Pending"
+2. Continue with other work, or end the session
+3. Next session, check pending jobs and incorporate results
+
+This allows proof work to proceed in parallel across sessions.
+
 ### Logging Format
 
 Each phase should add an entry to `claude-progress.md`:
@@ -207,6 +270,7 @@ AoC rate-limits submissions:
 | `AoC2025/DayXX/UPSTREAMING.md` | Upstream candidates for this day |
 | `puzzle-status.json` | Tracks solved status |
 | `claude-progress.md` | Activity log |
+| `ARISTOTLE.md` | Tracks pending/completed Aristotle jobs |
 | `UPSTREAMING.md` | Summary of all upstream candidates |
 
 ## Example Session
