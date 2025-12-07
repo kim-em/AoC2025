@@ -105,8 +105,9 @@ After successfully submitting both parts for a day, continue with verification w
 ### Phase C: Proof
 - Work through sorries, completing proofs
 - Build up from simpler helper lemmas
-- **Effort bound**: Try a few approaches per theorem. If stuck, move on and note it in the log.
-- Log: `Day XX: Proved [theorem names]` or `Day XX: Stuck on [theorem] - [brief reason]`
+- **Effort bound**: Try a few approaches per theorem. If stuck, **send to Aristotle** (see below)
+- **Do not give up on proofs** - Aristotle is the mechanism for completing difficult proofs
+- Log: `Day XX: Proved [theorem names]` or `Day XX: Sent [theorems] to Aristotle`
 - Commit after completing proofs: `Day XX: Prove [theorems]`
 
 ### Phase D: Proof Cleanup
@@ -166,10 +167,12 @@ Before writing new proofs, first check `ARISTOTLE.md` for completed jobs:
 
 ### When to Send to Aristotle
 
-Send proofs to Aristotle when:
-- You've tried a few approaches and are stuck
+**Aristotle is not optional** - it's the expected path for any proof you can't complete quickly yourself. Send proofs to Aristotle when:
+- You've tried 2-3 approaches and are stuck (don't spend more than a few minutes per theorem)
 - You have specification theorems with `sorry` that need filling
 - You're ending a session with unfinished proofs
+
+**Never leave `sorry` unaddressed** - either prove it yourself or send it to Aristotle.
 
 **Important**: Aristotle works on exactly one `sorry` per file. When preparing a file for Aristotle:
 
