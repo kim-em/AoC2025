@@ -8,10 +8,11 @@ When starting a new session to work on AoC:
 
 0. **Log session start**: Add entry to `claude-progress.md`: `## YYYY-MM-DD HH:MM - Session started`
 1. **Read progress log**: Review `claude-progress.md` to understand previous work
-2. **Check Aristotle jobs**: Review `ARISTOTLE.md` for pending jobs, download and incorporate any completed results
-3. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
-4. **Check git status**: Verify no uncommitted work from previous sessions
-5. **Identify next task**: The status tool shows the next unsolved puzzle
+2. **Check status**: `./tools/aoc_status.py` to see solved/pending puzzles
+3. **Check git status**: Verify no uncommitted work from previous sessions
+4. **Identify next task**: The status tool shows the next unsolved puzzle
+
+**Priority**: Solving puzzles always comes first. Only proceed to verification work (and Aristotle jobs) when all available puzzles are solved.
 
 ## Core Workflow
 
@@ -130,6 +131,8 @@ After successfully submitting both parts for a day, continue with verification w
 
 Aristotle is an automated theorem prover that can fill in `sorry` placeholders. Use the `aristotle` skill for full documentation.
 
+**Priority**: Aristotle is for verification work only. Solving puzzles always takes precedence. Only use Aristotle when all available puzzles are solved and you're working on Phase C (Proof).
+
 ### ARISTOTLE.md Tracking
 
 Maintain an `ARISTOTLE.md` file at the project root with two sections:
@@ -150,9 +153,9 @@ Maintain an `ARISTOTLE.md` file at the project root with two sections:
 | def456... | Day01/Basic.lean | 3/5 proved | 2 false (see FIXMEs) |
 ```
 
-### Session Startup
+### Starting Phase C (Proof Work)
 
-When starting proof work (Phase C), first check `ARISTOTLE.md`:
+Before writing new proofs, first check `ARISTOTLE.md` for completed jobs:
 1. For any pending jobs, check their status via the Aristotle API
 2. Download completed results and incorporate them:
    - Copy successful proofs into the original file
