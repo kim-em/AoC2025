@@ -154,14 +154,40 @@ theorem mem_dedup_iff (xs : List Nat) (n : Nat) :
   simp [dedup]
   induction xs using List.reverseRecOn <;> aesop
 
+set_option maxHeartbeats 800000 in
 /-- mergeTimelines preserves total count -/
 theorem mergeTimelines_sum (xs : List (Nat × Nat)) :
     (mergeTimelines xs).foldl (fun acc (_, c) => acc + c) 0 =
     xs.foldl (fun acc (_, c) => acc + c) 0 := by
-  -- The proof requires showing the foldl invariant:
-  -- total count in result = total count in processed pairs
-  -- Key insight: when merging, we add counts (n + count) preserving totals
-  sorry
+  -- Proved by Aristotle (v4.24.0), requires increased heartbeats for v4.24.1
+  induction' xs using List.reverseRecOn with xs ih <;> aesop;
+  by_cases h : fst ∈ List.map Prod.fst (AoC2025.Day07.mergeTimelines xs);
+  · have h_add : List.foldl (fun acc (x : ℕ × ℕ) => acc + x.2) 0 (List.map (fun (c, n) => if c = fst then (c, n + snd) else (c, n)) (AoC2025.Day07.mergeTimelines xs)) = List.foldl (fun acc (x : ℕ × ℕ) => acc + x.2) 0 (AoC2025.Day07.mergeTimelines xs) + snd := by
+      have h_add : ∀ {l : List (ℕ × ℕ)}, fst ∈ List.map Prod.fst l → List.foldl (fun acc (x : ℕ × ℕ) => acc + x.2) 0 (List.map (fun (c, n) => if c = fst then (c, n + snd) else (c, n)) l) = List.foldl (fun acc (x : ℕ × ℕ) => acc + x.2) 0 l + snd * (List.countP (fun (c, _) => c = fst) l) := by
+        intros l hl; induction' l using List.reverseRecOn with l ih <;> aesop;
+        · linarith [ a_1 _ h_1 ];
+        · grind;
+        · by_cases h : ( fst, w ) ∈ l <;> simp_all ( config := { decide := Bool.true } ) [ mul_add, add_assoc, add_comm, add_left_comm ];
+          · exact a_1 _ h;
+          · induction l using List.reverseRecOn <;> aesop;
+            · exact a_1 _ ( Or.inr rfl );
+            · grind;
+      rw [ h_add h ];
+      have h_count : ∀ {l : List (ℕ × ℕ)}, List.Nodup (List.map Prod.fst l) → List.countP (fun (c, snd) => c = fst) l = if fst ∈ List.map Prod.fst l then 1 else 0 := by
+        norm_num +zetaDelta at *;
+        intros l hl; induction l <;> aesop;
+        rw [ List.countP_cons ] ; aesop;
+      rw [ h_count ];
+      · aesop;
+      · have h_nodup : ∀ {l : List (ℕ × ℕ)}, List.Nodup (List.map Prod.fst (List.foldl (fun (acc : List (ℕ × ℕ)) (x : ℕ × ℕ) => match acc.find? (fun (c, _) => c == x.1) with | some _ => acc.map (fun (c, n) => if c == x.1 then (c, n + x.2) else (c, n)) | none => acc ++ [(x.1, x.2)]) [] l)) := by
+          intro l; induction' l using List.reverseRecOn with l ih <;> aesop;
+          · convert a_1 using 1;
+            exact List.map_congr_left fun x hx => by aesop;
+          · rw [ List.nodup_append ] ; aesop;
+        exact h_nodup;
+    unfold AoC2025.Day07.mergeTimelines at * ; aesop;
+  · unfold AoC2025.Day07.mergeTimelines at *;
+    grind
 
 /-- Timeline doubling: each split doubles timelines going through it -/
 theorem split_doubles_timelines (count : Nat) :

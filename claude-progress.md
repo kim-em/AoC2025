@@ -74,3 +74,5 @@ Fixed several issues with Aristotle workflow prompting:
 ## 2025-12-07 19:25 - Session started
 - [19:32] Submitted 5 proofs to Aristotle: Day07 (dedup_nodup, mem_dedup_iff, mergeTimelines_sum), Day03 (maxJoltage_le_99, maxJoltageK_greedy)
 - [19:41] Day07: Incorporated 2 Aristotle proofs (dedup_nodup, mem_dedup_iff). 1 sorry remaining.
+## 2025-12-07 20:01 - Session started
+- [20:05] Day 07 Phase C: Incorporated mergeTimelines_sum proof from Aristotle (needs maxHeartbeats 800000 for v4.24.1)
