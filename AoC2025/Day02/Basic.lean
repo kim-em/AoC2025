@@ -1,6 +1,7 @@
 /-
   # Day 02 - Parsing and Data Structures
 -/
+import Mathlib
 import AoC2025.Basic
 
 namespace AoC2025.Day02
@@ -118,26 +119,38 @@ def sumInvalidInRangePart2 (r : Range) : Nat :=
     This justifies the `repMultiplier` formula. -/
 theorem geomSum_eq (r : Nat) (k : Nat) (hr : r > 1) :
     (List.range k).foldl (fun acc i => acc + r ^ i) 0 = (r ^ k - 1) / (r - 1) := by
-  sorry
+  rw [Nat.div_eq_of_eq_mul_left]
+  · exact Nat.sub_pos_of_lt hr
+  · exact Nat.sub_eq_of_eq_add <| by
+      exact Nat.recOn k (by norm_num) fun n ih => by
+        cases r <;> simp_all +decide [List.range_succ, pow_succ']; linarith
 
 /-- repMultiplier computes the geometric series sum with base 10^d. -/
 theorem repMultiplier_eq_geomSum (d k : Nat) (hd : d > 0) :
     repMultiplier d k = (List.range k).foldl (fun acc i => acc + (10 ^ d) ^ i) 0 := by
-  sorry
+  have h_geom_sum : (List.range k).foldl (fun acc i => acc + (10 ^ d) ^ i) 0 =
+      (10 ^ (d * k) - 1) / (10 ^ d - 1) := by
+    convert geomSum_eq _ _ _ using 1
+    · ring
+    · exact one_lt_pow₀ (by decide) hd.ne'
+  exact h_geom_sum.symm
 
 /-- A number formed by repeating a d-digit base k times equals base * repMultiplier d k. -/
-theorem repeated_digits_eq_mult (base d k : Nat) (hd : d > 0) (hk : k ≥ 2)
-    (hbase : 10 ^ (d - 1) ≤ base ∧ base < 10 ^ d) :
+theorem repeated_digits_eq_mult (base d k : Nat) (_hd : d > 0) (_hk : k ≥ 2)
+    (_hbase : 10 ^ (d - 1) ≤ base ∧ base < 10 ^ d) :
     -- The number formed by concatenating base with itself k times
     -- equals base * repMultiplier d k
     base * repMultiplier d k = base * ((10 ^ (d * k) - 1) / (10 ^ d - 1)) := by
-  sorry
+  simp [repMultiplier]
 
-/-- Sum of 0 + 1 + ... + (n-1) equals n*(n-1)/2 (doubled to avoid division).
-    Note: Proof requires ring/linarith tactics not available in this project. -/
+/-- Sum of 0 + 1 + ... + (n-1) equals n*(n-1)/2 (doubled to avoid division). -/
 theorem sum_range_doubled (n : Nat) :
     2 * (List.range n).foldl (· + ·) 0 = n * (n - 1) := by
-  sorry  -- Requires ring/linarith for inductive step
+  have h_sum_formula : List.foldl (fun x1 x2 => x1 + x2) 0 (List.range n) = n * (n - 1) / 2 := by
+    convert Finset.sum_range_id n using 1
+    induction n <;> simp_all +decide [Finset.sum_range_succ]
+    simp_all +decide [List.range_succ]
+  rw [h_sum_formula, Nat.mul_div_cancel' (even_iff_two_dvd.mp (Nat.even_mul_pred_self _))]
 
 /-- Arithmetic sum formula: Σ_{i=0}^{n-1} i = n * (n - 1) / 2 -/
 theorem sum_range_eq (n : Nat) :
@@ -149,19 +162,34 @@ theorem sum_range_eq (n : Nat) :
 theorem sum_with_offset (n a : Nat) :
     (List.range n).foldl (fun acc i => acc + (a + i)) 0 =
     a * n + (List.range n).foldl (· + ·) 0 := by
-  sorry  -- Requires ring/linarith for inductive step
+  induction n <;> simp_all +decide [List.range_succ]
+  ring
 
 /-- Arithmetic sum formula (doubled to avoid division issues):
     2 * Σ_{i=a}^{b} i = (b - a + 1) * (a + b) -/
 theorem arith_sum_formula_doubled (a b : Nat) (hab : a ≤ b) :
     2 * (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 = (b - a + 1) * (a + b) := by
-  sorry  -- Depends on sum_with_offset and sum_range_doubled
+  have h_arith_sum : ∀ n : ℕ, (List.range n).foldl (fun acc i => acc + i) 0 = n * (n - 1) / 2 :=
+    sum_range_eq
+  have h_arith_sum_applied : ∀ (n : ℕ) (a : ℕ),
+      (List.range n).foldl (fun acc i => acc + (a + i)) 0 = n * a + (n * (n - 1)) / 2 := by
+    intros n a; rw [← h_arith_sum]
+    induction n <;> simp +decide [*, List.range_succ]; ring
+  have h_subst : (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 =
+      (b - a + 1) * a + (b - a + 1) * (b - a) / 2 :=
+    h_arith_sum_applied _ _
+  nlinarith [Nat.div_mul_cancel (show 2 ∣ (b - a + 1) * (b - a) from
+    Nat.dvd_of_mod_eq_zero (by norm_num [Nat.add_mod, Nat.mod_two_of_bodd])),
+    Nat.sub_add_cancel hab]
 
 /-- Arithmetic sum formula: Σ_{i=a}^{b} i = (b - a + 1) * (a + b) / 2 -/
 theorem arith_sum_formula (a b : Nat) (hab : a ≤ b) :
     (List.range (b - a + 1)).foldl (fun acc i => acc + (a + i)) 0 = (b - a + 1) * (a + b) / 2 := by
   have h := arith_sum_formula_doubled a b hab
   omega
+
+-- Note: Aristotle was unable to prove the following two theorems.
+-- They relate string-based checking to the algebraic characterization.
 
 /-- For Part 1: isInvalid n iff n = base * repMultiplier d 2 for some valid d and base. -/
 theorem isInvalid_iff_repeated_twice (n : Nat) (hn : n > 0) :
@@ -177,6 +205,9 @@ theorem isInvalidPart2_iff_repeated (n : Nat) (hn : n > 0) :
                 n = base * repMultiplier d k := by
   sorry
 
+-- Note: Aristotle produced a proof but it times out on v4.24.1.
+-- The proof involves complex Finset manipulations.
+
 /-- sumRepetitionsInRange correctly sums all numbers n in [r.lo, r.hi]
     where n = base * repMultiplier d k for a valid d-digit base. -/
 theorem sumRepetitionsInRange_correct (r : Range) (d k : Nat) (hd : d > 0) (hk : k ≥ 2) :
@@ -188,6 +219,13 @@ theorem sumRepetitionsInRange_correct (r : Range) (d k : Nat) (hd : d > 0) (hk :
     )).foldl (· + ·) 0 := by
   sorry
 
+-- FIXME: This theorem is FALSE!
+-- Aristotle found counterexample: r = ⟨10^21 + 10^10, 10^21 + 10^10⟩
+-- The issue is that sumInvalidInRange only checks d in [1, 10], so it misses
+-- numbers with 11+ digit bases repeated twice (22+ digit numbers total).
+-- The singleton range containing a 22-digit "invalid" number would return 0
+-- from sumInvalidInRange but the direct check would find it.
+
 /-- Part 1 correctness: sumInvalidInRange sums exactly the invalid numbers in the range. -/
 theorem sumInvalidInRange_correct (r : Range) :
     sumInvalidInRange r =
@@ -196,6 +234,13 @@ theorem sumInvalidInRange_correct (r : Range) :
       if isInvalid n then some n else none
     )).foldl (· + ·) 0 := by
   sorry
+
+-- FIXME: This theorem is FALSE!
+-- Aristotle found counterexample: r = ⟨repMultiplier 1 21, repMultiplier 1 21⟩
+-- where repMultiplier 1 21 = 111111111111111111111 (21 ones).
+-- The issue is that collectInvalidPart2 only checks total digit counts up to 20,
+-- so it misses 21+ digit invalid numbers. The number 111...1 (21 ones) is invalid
+-- (it's "1" repeated 21 times) but collectInvalidPart2 won't find it.
 
 /-- Part 2 correctness: sumInvalidInRangePart2 sums exactly the Part 2 invalid numbers. -/
 theorem sumInvalidInRangePart2_correct (r : Range) :
