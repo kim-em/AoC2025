@@ -171,16 +171,19 @@ Send proofs to Aristotle when:
 - You have specification theorems with `sorry` that need filling
 - You're ending a session with unfinished proofs
 
-**Important**: Only one `sorry` per file. Before sending:
-```lean
--- Change this:
-theorem foo : ... := by sorry
-theorem bar : ... := by sorry  -- also needs proving
+**Important**: Aristotle works on exactly one `sorry` per file. When preparing a file for Aristotle:
 
--- To this:
-theorem foo : ... := by sorry  -- Aristotle will work on this
-theorem bar : ... := by admit  -- Aristotle will ignore this
-```
+1. **Create a temporary copy** of the file (e.g., `Day02_pending.lean`)
+2. In the temporary copy, keep one `sorry` and change others to `admit`:
+   ```lean
+   -- In the temporary file for Aristotle:
+   theorem foo : ... := by sorry  -- Aristotle will work on this
+   theorem bar : ... := by admit  -- Aristotle will ignore this
+   ```
+3. Send the temporary file to Aristotle
+4. After incorporating results, delete the temporary file
+
+**Critical**: The committed source code should ALWAYS use `sorry` for unproved theorems, never `admit`. The `admit` tactic is only used temporarily in files sent to Aristotle to mark theorems it should skip. Do NOT convert `sorry` to `admit` in your main source files.
 
 ### Async Workflow
 
