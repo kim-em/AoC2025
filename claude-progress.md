@@ -84,3 +84,7 @@ Fixed several issues with Aristotle workflow prompting:
 - [16:20] Day04: findAccessible_spec proved but doesn't compile on v4.24.1
 - [16:20] Day05: mergeRanges_preserves_coverage failed
 - [16:20] Version incompatibility: Aristotle generates for v4.24.0, we're on v4.24.1
+- [2025-12-08 16:23] Day 8 Part 1: `352584` → correct
+- [2025-12-08 16:24] Day 8 Part 2: `9617397716` → correct
+- [16:25] Day 08 Part 1: `352584` → correct (union-find MST problem)
+- [16:30] Day 08 Part 2: `9617397716` → correct (connect until single circuit)

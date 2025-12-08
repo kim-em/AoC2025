@@ -26,6 +26,9 @@ def runDay (day : Nat) : IO Unit := do
   | 7 =>
     IO.println s!"Day 07 Part 1: {Day07.part1 input}"
     IO.println s!"Day 07 Part 2: {Day07.part2 input}"
+  | 8 =>
+    IO.println s!"Day 08 Part 1: {Day08.part1 input}"
+    IO.println s!"Day 08 Part 2: {Day08.part2 input}"
   | _ => IO.println s!"Day {day} not implemented yet"
 
 def main (args : List String) : IO Unit := do
