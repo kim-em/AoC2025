@@ -88,3 +88,6 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-08 16:24] Day 8 Part 2: `9617397716` → correct
 - [16:25] Day 08 Part 1: `352584` → correct (union-find MST problem)
 - [16:30] Day 08 Part 2: `9617397716` → correct (connect until single circuit)
+- [16:35] All 8 available puzzles now complete (16/16 stars)
+- [16:35] Moving to post-solve verification work for Day 8
+- [16:40] Day 08 Phase A: Refactored UnionFind to AoC2025.Basic for reusability

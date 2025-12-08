@@ -23,7 +23,7 @@ def Edge.lt (e1 e2 : Edge) : Bool :=
 def connectKShortest (points : Array Point) (k : Nat) : List Nat := Id.run do
   let edges := generateEdges points
   let sortedEdges := edges.qsort Edge.lt
-  let mut uf := UnionFind.init points.size
+  let mut uf := AoC2025.UnionFind.init points.size
 
   -- Process first k edges (connect or skip if already connected)
   for i in [:min k sortedEdges.size] do
@@ -48,7 +48,7 @@ def part1 (input : String) : String :=
 def connectUntilOne (points : Array Point) : Option Edge := Id.run do
   let edges := generateEdges points
   let sortedEdges := edges.qsort Edge.lt
-  let mut uf := UnionFind.init points.size
+  let mut uf := AoC2025.UnionFind.init points.size
   let mut numComponents := points.size
   let mut lastEdge : Option Edge := none
 
