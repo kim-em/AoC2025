@@ -6,6 +6,13 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
+| be2c064d-fe6b-4129-a199-fbd181af040b | Day08_Basic_pending1.lean | 2025-12-08 16:55 | parseLine_eq |
+| eb01efd2-82c2-473c-b315-c727a024a702 | Day08_Basic_pending2.lean | 2025-12-08 16:55 | distSq_nonneg |
+| a51af769-a50e-46ce-9584-09afc08bf23e | Basic_pending1.lean | 2025-12-08 16:56 | find_result_valid |
+| 080deeb4-9c73-46a9-ac46-dfa95275dd9b | Basic_pending2.lean | 2025-12-08 16:56 | find_idempotent |
+| ee7328d5-3bfe-422b-8e9a-3984c8e977ed | Basic_pending3.lean | 2025-12-08 16:56 | union_preserves_size |
+| 5cb7dfa9-fa0d-459f-a259-1146d9c4b0c1 | Basic_pending4.lean | 2025-12-08 16:56 | union_self |
+| d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | 2025-12-08 16:57 | componentSizes_length (created but not solved - rate limited) |
 
 ## Completed
 
