@@ -81,6 +81,50 @@ def componentSizes (uf : UnionFind) : List Nat := Id.run do
       sizes := uf'.size[i]! :: sizes
   return sizes
 
+/-! ### UnionFind Specification Theorems -/
+
+/-- Initial UnionFind has all elements as their own parent -/
+theorem init_parent_self (n : Nat) (i : Nat) (h : i < n) :
+    (init n).parent[i]'(by simp [init]; exact h) = i := by
+  simp [init, Array.range]
+
+/-- Initial UnionFind has all components of size 1 -/
+theorem init_size_one (n : Nat) (i : Nat) (h : i < n) :
+    (init n).size[i]'(by simp [init]; exact h) = 1 := by
+  simp [init]
+
+/-- find returns a valid index within bounds -/
+theorem find_result_valid (uf : UnionFind) (i : Nat) :
+    i < uf.parent.size →
+    let (root, _) := uf.find i
+    root < uf.parent.size := by
+  sorry
+
+/-- find is idempotent: finding the root of a root gives the same root -/
+theorem find_idempotent (uf : UnionFind) (i : Nat) :
+    i < uf.parent.size →
+    let (root, uf') := uf.find i
+    let (root', _) := uf'.find root
+    root = root' := by
+  sorry
+
+/-- union preserves the parent array size -/
+theorem union_preserves_size (uf : UnionFind) (i j : Nat) :
+    let (_, uf') := uf.union i j
+    uf'.parent.size = uf.parent.size := by
+  sorry
+
+/-- union of same element is no-op -/
+theorem union_self (uf : UnionFind) (i : Nat) :
+    let (wasUnion, uf') := uf.union i i
+    wasUnion = false := by
+  sorry
+
+/-- componentSizes returns sizes for each root -/
+theorem componentSizes_length (uf : UnionFind) :
+    (uf.componentSizes).length ≤ uf.parent.size := by
+  sorry
+
 end UnionFind
 
 end AoC2025

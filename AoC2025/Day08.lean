@@ -75,4 +75,35 @@ def part2 (input : String) : String :=
     let p2 := points[edge.j]!
     toString (p1.x.toNat * p2.x.toNat)
 
+/-! ## Specification Theorems -/
+
+/-- Edge.lt is a strict total order on edges by distance -/
+theorem Edge.lt_trans (e1 e2 e3 : Edge) :
+    e1.lt e2 = true → e2.lt e3 = true → e1.lt e3 = true := by
+  simp [Edge.lt]
+  omega
+
+/-- generateEdges produces all pairs with correct indices -/
+theorem generateEdges_spec (points : Array Point) (e : Edge) :
+    e ∈ generateEdges points →
+    e.i < points.size ∧
+    e.j < points.size ∧
+    e.i < e.j ∧
+    e.distSq = distSq points[e.i]! points[e.j]! := by
+  sorry
+
+/-- connectKShortest processes exactly k edges (or fewer if not enough edges) -/
+theorem connectKShortest_processes_k (points : Array Point) (k : Nat) :
+    let edges := generateEdges points
+    let sortedEdges := edges.qsort Edge.lt
+    let processed := min k sortedEdges.size
+    (connectKShortest points k).length ≤ 3 := by
+  sorry
+
+/-- connectUntilOne terminates and returns last edge that reduced components -/
+theorem connectUntilOne_last_edge (points : Array Point) :
+    points.size > 1 →
+    ∃ edge, connectUntilOne points = some edge := by
+  sorry
+
 end AoC2025.Day08

@@ -35,4 +35,29 @@ structure Edge where
   distSq : Int  -- squared distance
   deriving Repr, Inhabited
 
+/-! ## Specification Theorems -/
+
+/-- Parsing a valid line produces a Point with matching coordinates -/
+theorem parseLine_eq (s : String) (x y z : Int) :
+    parseLine s = some ⟨x, y, z⟩ →
+    ∃ parts : List String,
+      parts = s.splitOn "," ∧
+      parts.length = 3 ∧
+      parts[0]!.toInt? = some x ∧
+      parts[1]!.toInt? = some y ∧
+      parts[2]!.toInt? = some z := by
+  sorry
+
+/-- distSq is commutative -/
+theorem distSq_comm (p1 p2 : Point) : distSq p1 p2 = distSq p2 p1 := by
+  sorry
+
+/-- distSq is non-negative -/
+theorem distSq_nonneg (p1 p2 : Point) : distSq p1 p2 ≥ 0 := by
+  sorry
+
+/-- distSq to self is zero -/
+theorem distSq_self (p : Point) : distSq p p = 0 := by
+  simp [distSq]
+
 end AoC2025.Day08

@@ -92,3 +92,8 @@ Fixed several issues with Aristotle workflow prompting:
 - [16:35] Moving to post-solve verification work for Day 8
 - [16:40] Day 08 Phase A: Refactored UnionFind to AoC2025.Basic for reusability
 ## 2025-12-08 16:34 - Session started
+- [16:48] Day 08 Phase B: Added specification theorems
+  - Day08/Basic.lean: parseLine_eq, distSq_comm, distSq_nonneg, distSq_self
+  - Day08.lean: Edge.lt_trans, generateEdges_spec, connectKShortest_processes_k, connectUntilOne_last_edge
+  - Basic.lean (UnionFind): init_parent_self, init_size_one, find_result_valid, find_idempotent, union_preserves_size, union_self, componentSizes_length
+  - Total: 11 theorems (2 proved, 9 with sorry)
