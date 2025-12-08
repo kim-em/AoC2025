@@ -2,6 +2,7 @@
   # Day 08 - Parsing and Data Structures
 -/
 import AoC2025.Basic
+import Mathlib.Tactic.Ring
 
 namespace AoC2025.Day08
 
@@ -50,7 +51,8 @@ theorem parseLine_eq (s : String) (x y z : Int) :
 
 /-- distSq is commutative -/
 theorem distSq_comm (p1 p2 : Point) : distSq p1 p2 = distSq p2 p1 := by
-  sorry
+  simp [distSq]
+  ring
 
 /-- distSq is non-negative -/
 theorem distSq_nonneg (p1 p2 : Point) : distSq p1 p2 ≥ 0 := by
