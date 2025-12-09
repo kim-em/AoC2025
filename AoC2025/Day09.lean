@@ -68,6 +68,11 @@ def isValidRectangleOpt (p1 p2 : Point) (redTiles : Array Point) (redSet : Std.H
   let maxX := max p1.x p2.x
   let minY := min p1.y p2.y
   let maxY := max p1.y p2.y
+
+  -- Check corners first (they must be red tiles)
+  if !redSet.contains (p1.x, p1.y) || !redSet.contains (p2.x, p2.y) then
+    return false
+
   -- Check all points in the rectangle
   for x in [minX:maxX+1] do
     for y in [minY:maxY+1] do

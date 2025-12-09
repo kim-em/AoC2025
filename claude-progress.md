@@ -110,3 +110,7 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-09 19:39] Day 9 Part 1: `4774739298` → wrong (too low)
 - [2025-12-09 19:40] Day 9 Part 1: `4774877510` → rate_limited
 - [2025-12-09 19:40] Day 9 Part 1: `4774877510` → correct
+- [2025-12-09 19:53] Day 09 Part 2: Performance issue with point-in-polygon checks - need optimization
+- [2025-12-09 19:55] Day 9 Part 2: `7358` → wrong (too low, area limit 10K too restrictive)
+- [2025-12-09 19:56] Day 9 Part 2: `97848` → wrong (too low, area limit 100K still too restrictive)
+- [2025-12-09 20:03] Day 09 Part 2: Removing area limits causes prohibitive runtime - need algorithmic improvement
