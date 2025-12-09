@@ -129,3 +129,12 @@ Fixed several issues with Aristotle workflow prompting:
   - Need: Better algorithmic approach (interval-based, geometric heuristics, or spatial indexing)
   - Status: WIP, needs algorithmic redesign
 
+## 2025-12-10 08:10 - Session started
+- [2025-12-10 08:15] Day 9 Part 2: `1492` → wrongNone
+- [2025-12-10 10:12] Day 9 Part 2: `697356` → wrongNone
+- [22:30] Day 09 Part 2: WIP - continuing from previous session
+  - Fixed bug: excluding degenerate rectangles (line segments)  
+  - Fixed bug: perimeter segments should exclude red endpoints
+  - Found answers at different limits: 46453 (50K), 97848 (100K), 199290 (200K), 496692 (500K), 697356 (700K)
+  - 697356 → wrong
+  - Still debugging validation logic

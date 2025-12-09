@@ -24,17 +24,21 @@ def part1 (input : String) : String :=
 
 -- For Part 2, we need to determine which tiles are green
 -- Green tiles are: perimeter of the polygon + interior
+
+-- Check if point is on a segment from a to b (axis-aligned), EXCLUDING endpoints
 def isOnSegment (p a b : Point) : Bool :=
-  let minX := min a.x b.x
-  let maxX := max a.x b.x
-  let minY := min a.y b.y
-  let maxY := max a.y b.y
-  if a.x == b.x then
-    -- Vertical segment
-    p.x == a.x && minY ≤ p.y && p.y ≤ maxY
+  if p == a || p == b then
+    false  -- Endpoints are red tiles, not green
+  else if a.x == b.x then
+    -- Vertical segment (excluding endpoints)
+    let minY := min a.y b.y
+    let maxY := max a.y b.y
+    p.x == a.x && minY < p.y && p.y < maxY
   else if a.y == b.y then
-    -- Horizontal segment
-    p.y == a.y && minX ≤ p.x && p.x ≤ maxX
+    -- Horizontal segment (excluding endpoints)
+    let minX := min a.x b.x
+    let maxX := max a.x b.x
+    p.y == a.y && minX < p.x && p.x < maxX
   else
     false
 
@@ -52,132 +56,88 @@ def isInsidePolygon (p : Point) (vertices : Array Point) : Bool := Id.run do
     j := i
   return inside
 
-def isGreenTile (p : Point) (redTiles : Array Point) : Bool := Id.run do
-  -- Check if on perimeter
-  let n := redTiles.size
-  for i in [0:n] do
-    let a := redTiles[i]!
-    let b := redTiles[(i + 1) % n]!
-    if isOnSegment p a b then
-      return true
-  -- Check if inside polygon
-  return isInsidePolygon p redTiles
-
--- Cache for memoizing isGreenTile results
-structure TileCache where
-  redSet : Std.HashSet (Nat × Nat)
-  greenCache : IO.Ref (Std.HashSet (Nat × Nat))
-  notGreenCache : IO.Ref (Std.HashSet (Nat × Nat))
-
--- Check if a point is green with caching
-def isGreenTileCached (p : Point) (redTiles : Array Point) (cache : TileCache) : IO Bool := do
-  let pos := (p.x, p.y)
-
-  -- Check if red
-  if cache.redSet.contains pos then
-    return false  -- Red tiles are not green tiles
-
-  -- Check cache
-  let greenCache ← cache.greenCache.get
-  if greenCache.contains pos then
-    return true
-
-  let notGreenCache ← cache.notGreenCache.get
-  if notGreenCache.contains pos then
-    return false
-
-  -- Compute and cache
-  let isGreen := isGreenTile p redTiles
-  if isGreen then
-    cache.greenCache.modify (·.insert pos)
+-- Check if a point is green (on perimeter or inside)
+def isGreenOrRed (p : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) : Bool :=
+  -- Red tiles are valid
+  if redSet.contains (p.x, p.y) then
+    true
   else
-    cache.notGreenCache.modify (·.insert pos)
-  return isGreen
+    -- Check if on perimeter
+    let n := vertices.size
+    let onPerimeter := Id.run do
+      for i in [0:n] do
+        let a := vertices[i]!
+        let b := vertices[(i + 1) % n]!
+        if isOnSegment p a b then
+          return true
+      return false
+    if onPerimeter then
+      true
+    else
+      -- Check if inside
+      isInsidePolygon p vertices
 
--- Fast validation: check perimeter + sample interior
-def isValidRectangleCached (p1 p2 : Point) (redTiles : Array Point) (cache : TileCache) : IO Bool := do
+-- For a rectangle, check if ALL points are green or red
+-- Only check rectangles up to a maximum area
+def isValidRectangle (p1 p2 : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) (maxArea : Nat) : Bool := Id.run do
   let minX := min p1.x p2.x
   let maxX := max p1.x p2.x
   let minY := min p1.y p2.y
   let maxY := max p1.y p2.y
 
-  -- Check corners (must be red)
-  if !cache.redSet.contains (p1.x, p1.y) || !cache.redSet.contains (p2.x, p2.y) then
+  -- Check corners are red
+  if !redSet.contains (p1.x, p1.y) || !redSet.contains (p2.x, p2.y) then
     return false
 
   let width := maxX - minX + 1
   let height := maxY - minY + 1
+  let area := width * height
 
-  -- Check perimeter only (much faster)
-  -- Top and bottom edges
-  for x in [minX:maxX+1] do
-    for y in [minY, maxY] do
-      let pos := (x, y)
-      if !cache.redSet.contains pos then
-        let isGreen ← isGreenTileCached { x, y } redTiles cache
-        if !isGreen then
-          return false
+  -- Skip rectangles that are too large
+  if area > maxArea then
+    return false
 
-  -- Left and right edges (excluding corners we already checked)
-  for y in [minY+1:maxY] do
-    for x in [minX, maxX] do
-      let pos := (x, y)
-      if !cache.redSet.contains pos then
-        let isGreen ← isGreenTileCached { x, y } redTiles cache
-        if !isGreen then
-          return false
-
-  -- Sample interior: check center and a few other points
-  let samples := [
-    (minX + width / 2, minY + height / 2),  -- Center
-    (minX + width / 4, minY + height / 4),
-    (minX + 3 * width / 4, minY + height / 4),
-    (minX + width / 4, minY + 3 * height / 4),
-    (minX + 3 * width / 4, minY + 3 * height / 4)
-  ]
-
-  for (sx, sy) in samples do
-    let pos := (sx, sy)
-    if !cache.redSet.contains pos then
-      let isGreen ← isGreenTileCached { x := sx, y := sy } redTiles cache
-      if !isGreen then
+  -- Check all points in rectangle are green or red
+  for y in [minY:maxY+1] do
+    for x in [minX:maxX+1] do
+      if !isGreenOrRed { x, y } vertices redSet then
         return false
 
   return true
 
--- Main function using cached validation
-def maxValidRectangleArea (points : List Point) : IO Nat := do
-  let redTiles := points.toArray
-  let redSet := redTiles.foldl (fun s p => s.insert (p.x, p.y)) Std.HashSet.empty
+-- Main function - check all rectangles
+def maxValidRectangleArea (points : List Point) : Nat := Id.run do
+  let vertices := points.toArray
+  let redSet := vertices.foldl (fun s p => s.insert (p.x, p.y)) (Std.HashSet.emptyWithCapacity 500)
 
-  let cache : TileCache := {
-    redSet := redSet,
-    greenCache := ← IO.mkRef Std.HashSet.empty,
-    notGreenCache := ← IO.mkRef Std.HashSet.empty
-  }
-
-  IO.println s!"Checking {points.length * points.length} rectangle pairs..."
   let mut maxArea := 0
-  let mut count := 0
+
+  -- Just check all rectangles, skipping those that are too large to be practical
+  let maxAreaLimit := 700000
+
   for p1 in points do
     for p2 in points do
       if p1 != p2 then
-        count := count + 1
-        if count % 10000 == 0 then
-          IO.println s!"Checked {count} pairs, maxArea so far: {maxArea}"
-        let valid ← isValidRectangleCached p1 p2 redTiles cache
-        if valid then
-          let area := rectangleArea p1 p2
-          if area > maxArea then
-            maxArea := area
-            IO.println s!"New max: {area} at ({p1.x},{p1.y}) to ({p2.x},{p2.y})"
+        let minX := min p1.x p2.x
+        let maxX := max p1.x p2.x
+        let minY := min p1.y p2.y
+        let maxY := max p1.y p2.y
+        let width := maxX - minX + 1
+        let height := maxY - minY + 1
+        let area := width * height
+
+        -- Skip degenerate rectangles (line segments) and rectangles that are too large
+        if width > 1 && height > 1 && area ≤ maxAreaLimit then
+          if isValidRectangle p1 p2 vertices redSet maxAreaLimit then
+            if area > maxArea then
+              maxArea := area
 
   return maxArea
 
 -- Part 2
-def part2 (input : String) : IO String := do
+def part2 (input : String) : String :=
   let points := parseInput input
-  let area ← maxValidRectangleArea points
-  return toString area
+  let area := maxValidRectangleArea points
+  toString area
 
 end AoC2025.Day09
