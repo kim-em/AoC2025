@@ -114,3 +114,18 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-09 19:55] Day 9 Part 2: `7358` → wrong (too low, area limit 10K too restrictive)
 - [2025-12-09 19:56] Day 9 Part 2: `97848` → wrong (too low, area limit 100K still too restrictive)
 - [2025-12-09 20:03] Day 09 Part 2: Removing area limits causes prohibitive runtime - need algorithmic improvement
+## 2025-12-09 20:16 - Session started
+- [2025-12-09 20:18] Day 9 Part 2: `46453` → wrong (too low)
+- [2025-12-09 20:35] Day 9 Part 2: `199290` → wrongNone
+- [2025-12-09 20:41] Day 9 Part 2: `496692` → wrongNone
+- [21:35] Day 09 Part 2: Performance challenges with polygon validation
+  - Problem: 496 red tiles form a polygon, need largest rectangle with red corners containing only red/green tiles
+  - Challenge: ~250K rectangle pairs, each potentially contains hundreds of thousands of points to validate
+  - Approaches tried:
+    - Full point-by-point validation: too slow without area limits
+    - Area limits (50K→200K→500K): Found 46453, 199290, 496692 (all wrong)
+    - Caching with IO.Ref: Helps but still fundamentally O(n² × area)
+    - Perimeter-only checking: Still too slow due to large perimeters
+  - Need: Better algorithmic approach (interval-based, geometric heuristics, or spatial indexing)
+  - Status: WIP, needs algorithmic redesign
+
