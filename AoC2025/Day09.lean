@@ -223,4 +223,36 @@ def part2 (input : String) : String :=
   let area := maxValidRectangleArea points
   toString area
 
+-- ============ Specification Theorems ============
+
+-- Rectangle area is always at least 1
+theorem rectangleArea_ge_one (p1 p2 : Point) : rectangleArea p1 p2 ≥ 1 := by
+  sorry
+
+-- Rectangle area is symmetric
+theorem rectangleArea_comm (p1 p2 : Point) : rectangleArea p1 p2 = rectangleArea p2 p1 := by
+  sorry
+
+-- isOnSegment excludes endpoints
+theorem isOnSegment_not_endpoint_left (p a b : Point) (h : isOnSegment p a b = true) : p ≠ a := by
+  sorry
+
+theorem isOnSegment_not_endpoint_right (p a b : Point) (h : isOnSegment p a b = true) : p ≠ b := by
+  sorry
+
+-- isOnSegment only works for axis-aligned segments
+-- (for non-axis-aligned, always returns false)
+theorem isOnSegment_non_axis_aligned (p a b : Point)
+    (hx : a.x ≠ b.x) (hy : a.y ≠ b.y) : isOnSegment p a b = false := by
+  sorry
+
+-- getSignificantYs contains the boundary values
+theorem getSignificantYs_contains_minY (vertices : Array Point) (minY maxY : Nat) :
+    minY ∈ (getSignificantYs vertices minY maxY).toList := by
+  sorry
+
+theorem getSignificantYs_contains_maxY (vertices : Array Point) (minY maxY : Nat) :
+    maxY ∈ (getSignificantYs vertices minY maxY).toList := by
+  sorry
+
 end AoC2025.Day09

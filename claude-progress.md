@@ -142,3 +142,11 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-10 10:41] Day 9 Part 2: `1669352160` → wrongNone
 - [2025-12-10 11:25] Day 9 Part 2: `97848` → wrongNone
 - [2025-12-10 12:12] Day 9 Part 2: `1560475800` → correct
+  - Solution: Optimized rectangle validation using significant y-coordinates
+  - Only check y-levels where polygon vertices exist plus midpoints
+  - For each row, check edge crossing points and midpoints between them
+- [12:30] Day 09 Phase A: Removed ~180 lines of dead code (intermediate implementations)
+- [12:35] Day 09 Phase B: Added 7 specification theorems (all with sorry):
+  - rectangleArea_ge_one, rectangleArea_comm
+  - isOnSegment_not_endpoint_left, isOnSegment_not_endpoint_right, isOnSegment_non_axis_aligned
+  - getSignificantYs_contains_minY, getSignificantYs_contains_maxY
