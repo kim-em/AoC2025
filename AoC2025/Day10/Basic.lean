@@ -545,26 +545,62 @@ where
 
 /-- XOR is self-inverse -/
 theorem xorVec_self (a : Array Bool) : xorVec a a = Array.replicate a.size false := by
-  sorry
+  simp only [xorVec]
+  apply Array.ext
+  · simp only [Array.size_zipWith, Nat.min_self, Array.size_replicate]
+  · intro i _ _
+    simp only [Array.getElem_zipWith, Array.getElem_replicate, bne_self_eq_false]
 
 /-- XOR is commutative -/
 theorem xorVec_comm (a b : Array Bool) : xorVec a b = xorVec b a := by
-  sorry
+  simp only [xorVec]
+  apply Array.ext
+  · simp only [Array.size_zipWith, Nat.min_comm]
+  · intro i _ _
+    simp only [Array.getElem_zipWith, bne_comm]
+    done
 
 /-- countBits of all-false vector is 0 -/
 theorem countBits_all_false (n : Nat) : countBits (Array.replicate n false) = 0 := by
-  sorry
+  simp only [countBits]
+  suffices h : ∀ acc, Array.foldl (fun a b => if b then a + 1 else a) acc (Array.replicate n false) = acc by
+    exact h 0
+  intro acc
+  induction n generalizing acc with
+  | zero => simp
+  | succ n ih =>
+    simp only [Array.replicate_succ', Array.foldl_append]
+    have : Array.foldl (fun a b => if b = true then a + 1 else a) acc #[false] = acc := by rfl
+    rw [this]
+    exact ih acc
 
 /-- swapRows preserves matrix size -/
 theorem swapRows_size (mat : GF2Matrix) (i j : Nat) :
     (swapRows mat i j).size = mat.size := by
-  sorry
+  simp only [swapRows]
+  split
+  · split
+    · simp only [Array.size_set]
+    · rfl
+  · rfl
 
-/-- natGcd computes GCD correctly -/
+/-- natGcd equals Nat.gcd -/
+theorem natGcd_eq_gcd (a b : Nat) : natGcd a b = Nat.gcd a b := by
+  induction b using Nat.strongRecOn generalizing a with
+  | _ b ih =>
+    unfold natGcd
+    split
+    · simp_all
+    · next h =>
+      rw [ih (a % b) (Nat.mod_lt a (Nat.pos_of_ne_zero h)) b]
+      rw [Nat.gcd_comm a b, Nat.gcd_rec b a, Nat.gcd_comm]
+
+/-- natGcd divides left -/
 theorem natGcd_dvd_left (a b : Nat) : natGcd a b ∣ a := by
-  sorry
+  rw [natGcd_eq_gcd]; exact Nat.gcd_dvd_left a b
 
+/-- natGcd divides right -/
 theorem natGcd_dvd_right (a b : Nat) : natGcd a b ∣ b := by
-  sorry
+  rw [natGcd_eq_gcd]; exact Nat.gcd_dvd_right a b
 
 end AoC2025.Day10

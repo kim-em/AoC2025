@@ -6,7 +6,7 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
-| d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | 2025-12-08 16:57 | componentSizes_length (NOT_STARTED) |
+| (none) | | | |
 
 ## Completed
 
@@ -26,3 +26,4 @@ Tracking automated theorem proving jobs sent to Aristotle.
 | 080deeb4-9c73-46a9-ac46-dfa95275dd9b | Basic_pending2.lean | 0/1 proved | find_idempotent - not proved |
 | ee7328d5-3bfe-422b-8e9a-3984c8e977ed | Basic_pending3.lean | 0/1 proved | union_preserves_size - not proved |
 | 5cb7dfa9-fa0d-459f-a259-1146d9c4b0c1 | Basic_pending4.lean | 0/1 proved | union_self - not proved |
+| d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | abandoned | componentSizes_length - project created but never started, file deleted |

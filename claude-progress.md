@@ -161,3 +161,11 @@ Fixed several issues with Aristotle workflow prompting:
   - Day08 distSq_nonneg: proved (adapted for v4.24.1)
   - Basic find_result_valid: FALSE - deleted (counterexample: parent=#[3,3,3])
   - Basic find_idempotent, union_preserves_size, union_self: not proved (sorry remains)
+## 2025-12-11 09:19 - Session started
+- [09:45] Day 10 Phase C: Proved all 6 specification theorems
+  - xorVec_self: proved with Array.ext and bne_self_eq_false
+  - xorVec_comm: proved with Array.ext and bne_comm
+  - countBits_all_false: proved with induction and foldl_append
+  - swapRows_size: proved with split and Array.size_set
+  - natGcd_eq_gcd: proved natGcd equals Nat.gcd via Nat.gcd_comm and Nat.gcd_rec
+  - natGcd_dvd_left, natGcd_dvd_right: proved via natGcd_eq_gcd
