@@ -93,12 +93,10 @@ theorem init_size_one (n : Nat) (i : Nat) (h : i < n) :
     (init n).size[i]'(by simp [init]; exact h) = 1 := by
   simp [init]
 
-/-- find returns a valid index within bounds -/
-theorem find_result_valid (uf : UnionFind) (i : Nat) :
-    i < uf.parent.size →
-    let (root, _) := uf.find i
-    root < uf.parent.size := by
-  sorry
+-- find_result_valid: DELETED
+-- This theorem was false without a well-formedness invariant.
+-- Aristotle found counterexample: parent=#[3,3,3] where parent pointers are out of bounds.
+-- To fix: add invariant that all parent[i] < parent.size to UnionFind structure.
 
 /-- find is idempotent: finding the root of a root gives the same root -/
 theorem find_idempotent (uf : UnionFind) (i : Nat) :

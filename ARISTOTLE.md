@@ -6,13 +6,7 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
-| be2c064d-fe6b-4129-a199-fbd181af040b | Day08_Basic_pending1.lean | 2025-12-08 16:55 | parseLine_eq |
-| eb01efd2-82c2-473c-b315-c727a024a702 | Day08_Basic_pending2.lean | 2025-12-08 16:55 | distSq_nonneg |
-| a51af769-a50e-46ce-9584-09afc08bf23e | Basic_pending1.lean | 2025-12-08 16:56 | find_result_valid |
-| 080deeb4-9c73-46a9-ac46-dfa95275dd9b | Basic_pending2.lean | 2025-12-08 16:56 | find_idempotent |
-| ee7328d5-3bfe-422b-8e9a-3984c8e977ed | Basic_pending3.lean | 2025-12-08 16:56 | union_preserves_size |
-| 5cb7dfa9-fa0d-459f-a259-1146d9c4b0c1 | Basic_pending4.lean | 2025-12-08 16:56 | union_self |
-| d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | 2025-12-08 16:57 | componentSizes_length (created but not solved - rate limited) |
+| d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | 2025-12-08 16:57 | componentSizes_length (NOT_STARTED) |
 
 ## Completed
 
@@ -26,3 +20,9 @@ Tracking automated theorem proving jobs sent to Aristotle.
 | fdaf2c6f-2fbd-43cc-a3c0-bc1fa664d991 | Day03/Basic_pending2.lean | 0/1 proved | maxJoltageK_greedy - failed |
 | 9ec97a0d-68c1-477f-8ad5-19c1cd20a976 | Day04_pending1.lean | 1/1 proved | findAccessible_spec - doesn't compile on v4.24.1 |
 | 7ab8e2d0-dced-4d28-9cd8-c1899d709674 | Day05_pending1.lean | 0/1 proved | mergeRanges_preserves_coverage - failed |
+| be2c064d-fe6b-4129-a199-fbd181af040b | Day08_Basic_pending1.lean | 1/1 proved | parseLine_eq - adapted proof for v4.24.1 |
+| eb01efd2-82c2-473c-b315-c727a024a702 | Day08_Basic_pending2.lean | 1/1 proved | distSq_nonneg - adapted proof for v4.24.1 |
+| a51af769-a50e-46ce-9584-09afc08bf23e | Basic_pending1.lean | FALSE | find_result_valid - counterexample: parent=#[3,3,3]; theorem deleted |
+| 080deeb4-9c73-46a9-ac46-dfa95275dd9b | Basic_pending2.lean | 0/1 proved | find_idempotent - not proved |
+| ee7328d5-3bfe-422b-8e9a-3984c8e977ed | Basic_pending3.lean | 0/1 proved | union_preserves_size - not proved |
+| 5cb7dfa9-fa0d-459f-a259-1146d9c4b0c1 | Basic_pending4.lean | 0/1 proved | union_self - not proved |
