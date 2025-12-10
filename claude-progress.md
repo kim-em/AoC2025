@@ -174,3 +174,6 @@ Fixed several issues with Aristotle workflow prompting:
   - rectangleArea_comm: proved with congr and omega
   - isOnSegment_non_axis_aligned: proved by split and absurd
   - 4 theorems remain (isOnSegment endpoints, getSignificantYs contains boundaries)
+- [10:30] Submitted 2 theorems to Aristotle:
+  - isOnSegment_not_endpoint_left (project a63a2521...)
+  - isOnSegment_not_endpoint_right (project f1eb46ad...)

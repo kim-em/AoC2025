@@ -6,7 +6,8 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
-| (none) | | | |
+| a63a2521-460a-4023-9710-d02db4dae161 | Day09_pending1.lean | 2025-12-11 10:30 | isOnSegment_not_endpoint_left |
+| f1eb46ad-ce92-43e7-9d10-af0cac9a9e4c | Day09_pending2.lean | 2025-12-11 10:30 | isOnSegment_not_endpoint_right |
 
 ## Completed
 
