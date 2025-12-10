@@ -169,3 +169,8 @@ Fixed several issues with Aristotle workflow prompting:
   - swapRows_size: proved with split and Array.size_set
   - natGcd_eq_gcd: proved natGcd equals Nat.gcd via Nat.gcd_comm and Nat.gcd_rec
   - natGcd_dvd_left, natGcd_dvd_right: proved via natGcd_eq_gcd
+- [10:10] Day 09 Phase C: Proved 3/7 specification theorems
+  - rectangleArea_ge_one: proved with calc and Nat.mul_le_mul
+  - rectangleArea_comm: proved with congr and omega
+  - isOnSegment_non_axis_aligned: proved by split and absurd
+  - 4 theorems remain (isOnSegment endpoints, getSignificantYs contains boundaries)

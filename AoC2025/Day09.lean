@@ -227,24 +227,45 @@ def part2 (input : String) : String :=
 
 -- Rectangle area is always at least 1
 theorem rectangleArea_ge_one (p1 p2 : Point) : rectangleArea p1 p2 ≥ 1 := by
-  sorry
+  simp only [rectangleArea]
+  have h1 : (if p1.x > p2.x then p1.x - p2.x + 1 else p2.x - p1.x + 1) ≥ 1 := by split <;> omega
+  have h2 : (if p1.y > p2.y then p1.y - p2.y + 1 else p2.y - p1.y + 1) ≥ 1 := by split <;> omega
+  calc (if p1.x > p2.x then p1.x - p2.x + 1 else p2.x - p1.x + 1) *
+       (if p1.y > p2.y then p1.y - p2.y + 1 else p2.y - p1.y + 1)
+       ≥ 1 * 1 := Nat.mul_le_mul h1 h2
+     _ = 1 := Nat.one_mul 1
 
 -- Rectangle area is symmetric
 theorem rectangleArea_comm (p1 p2 : Point) : rectangleArea p1 p2 = rectangleArea p2 p1 := by
-  sorry
+  simp only [rectangleArea]
+  congr 1 <;>
+  · split
+    · split
+      · omega
+      · omega
+    · split
+      · omega
+      · omega
 
 -- isOnSegment excludes endpoints
 theorem isOnSegment_not_endpoint_left (p a b : Point) (h : isOnSegment p a b = true) : p ≠ a := by
-  sorry
+  sorry -- needs Aristotle: involves BEq on Point structure
 
 theorem isOnSegment_not_endpoint_right (p a b : Point) (h : isOnSegment p a b = true) : p ≠ b := by
-  sorry
+  sorry -- needs Aristotle: involves BEq on Point structure
 
 -- isOnSegment only works for axis-aligned segments
 -- (for non-axis-aligned, always returns false)
 theorem isOnSegment_non_axis_aligned (p a b : Point)
     (hx : a.x ≠ b.x) (hy : a.y ≠ b.y) : isOnSegment p a b = false := by
-  sorry
+  simp only [isOnSegment]
+  split
+  · rfl
+  · split
+    · next h => simp only [beq_iff_eq] at h; exact absurd h hx
+    · split
+      · next h => simp only [beq_iff_eq] at h; exact absurd h hy
+      · rfl
 
 -- getSignificantYs contains the boundary values
 theorem getSignificantYs_contains_minY (vertices : Array Point) (minY maxY : Nat) :
