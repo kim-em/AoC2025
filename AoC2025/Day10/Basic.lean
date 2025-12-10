@@ -541,4 +541,30 @@ where
 
     return some solution
 
+-- ========== Specification Theorems ==========
+
+/-- XOR is self-inverse -/
+theorem xorVec_self (a : Array Bool) : xorVec a a = Array.replicate a.size false := by
+  sorry
+
+/-- XOR is commutative -/
+theorem xorVec_comm (a b : Array Bool) : xorVec a b = xorVec b a := by
+  sorry
+
+/-- countBits of all-false vector is 0 -/
+theorem countBits_all_false (n : Nat) : countBits (Array.replicate n false) = 0 := by
+  sorry
+
+/-- swapRows preserves matrix size -/
+theorem swapRows_size (mat : GF2Matrix) (i j : Nat) :
+    (swapRows mat i j).size = mat.size := by
+  sorry
+
+/-- natGcd computes GCD correctly -/
+theorem natGcd_dvd_left (a b : Nat) : natGcd a b ∣ a := by
+  sorry
+
+theorem natGcd_dvd_right (a b : Nat) : natGcd a b ∣ b := by
+  sorry
+
 end AoC2025.Day10

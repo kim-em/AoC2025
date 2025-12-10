@@ -155,3 +155,4 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-10 16:59] Day 10 Part 2: `19574` → correct
 - [2025-12-10 16:55] Day 10 Part 1: `479` → correct (GF(2) linear algebra, minimum weight solution)
 - [2025-12-10 17:00] Day 10 Part 2: `19574` → correct (Integer LP, Gaussian elimination with non-negative solution search)
+- [17:10] Day 10 Phase B: Added 6 specification theorems (xorVec_self, xorVec_comm, countBits_all_false, swapRows_size, natGcd_dvd_left, natGcd_dvd_right)
