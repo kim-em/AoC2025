@@ -72,9 +72,9 @@ def vertices := #[
 
   -- Test the rectangle from (2,5) to (11,1) which should be INVALID for Part 2
   IO.println ""
-  IO.println "Testing row validity for rectangle (2,5) to (11,1):"
-  IO.println s!"  Row y=1, x=[2,11]: valid={isRowValid 1 2 11 vertices redSet}"  -- Should be false
-  IO.println s!"  Row y=2, x=[2,11]: valid={isRowValid 2 2 11 vertices redSet}"
-  IO.println s!"  Row y=3, x=[2,11]: valid={isRowValid 3 2 11 vertices redSet}"
-  IO.println s!"  Row y=4, x=[2,11]: valid={isRowValid 4 2 11 vertices redSet}"
-  IO.println s!"  Row y=5, x=[2,11]: valid={isRowValid 5 2 11 vertices redSet}"
+  IO.println "Testing segment validity for rectangle (2,5) to (11,1):"
+  IO.println s!"  Segment y=1, x=[2,11]: valid={isHorizontalSegmentValid 1 2 11 vertices redSet}"  -- Should be false
+  IO.println s!"  Segment y=2, x=[2,11]: valid={isHorizontalSegmentValid 2 2 11 vertices redSet}"
+  IO.println s!"  Segment y=3, x=[2,11]: valid={isHorizontalSegmentValid 3 2 11 vertices redSet}"
+  IO.println s!"  Segment y=4, x=[2,11]: valid={isHorizontalSegmentValid 4 2 11 vertices redSet}"
+  IO.println s!"  Segment y=5, x=[2,11]: valid={isHorizontalSegmentValid 5 2 11 vertices redSet}"

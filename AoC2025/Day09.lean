@@ -84,188 +84,7 @@ def isGreenOrRed (p : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat
       -- Check if inside
       isInsidePolygon p vertices
 
--- For a rectangle, check if ALL points are green or red
--- Only check rectangles up to a maximum area
-def isValidRectangle (p1 p2 : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) (maxArea : Nat) : Bool := Id.run do
-  let minX := min p1.x p2.x
-  let maxX := max p1.x p2.x
-  let minY := min p1.y p2.y
-  let maxY := max p1.y p2.y
-
-  -- Check corners are red
-  if !redSet.contains (p1.x, p1.y) || !redSet.contains (p2.x, p2.y) then
-    return false
-
-  let width := maxX - minX + 1
-  let height := maxY - minY + 1
-  let area := width * height
-
-  -- Skip rectangles that are too large
-  if area > maxArea then
-    return false
-
-  -- Check all points in rectangle are green or red
-  for y in [minY:maxY+1] do
-    for x in [minX:maxX+1] do
-      if !isGreenOrRed { x, y } vertices redSet then
-        return false
-
-  return true
-
--- Scanline approach: for each y-coordinate, compute the valid x-intervals
--- A point (x, y) is valid if it's red, on perimeter, or inside the polygon
-
--- For a given y, find all x-values where vertical polygon edges cross this y
--- Returns sorted array of (x, isOpening) pairs
-def findVerticalEdgeCrossings (y : Nat) (vertices : Array Point) : Array Nat := Id.run do
-  let n := vertices.size
-  let mut crossings : Array Nat := #[]
-  for i in [0:n] do
-    let v1 := vertices[i]!
-    let v2 := vertices[(i + 1) % n]!
-    -- Check if this is a vertical edge that STRICTLY spans y (not just touches)
-    if v1.x == v2.x then
-      let minY := min v1.y v2.y
-      let maxY := max v1.y v2.y
-      -- Only count if y is strictly between the endpoints (for inside calculation)
-      -- For y at an endpoint, we need to be careful about double counting
-      if minY < y && y < maxY then
-        crossings := crossings.push v1.x
-  return crossings.qsort (· < ·)
-
--- For a given y, compute the intervals of x that are "inside" the polygon
--- Returns array of (start, end) pairs representing closed intervals
-def computeInsideIntervalsAtY (y : Nat) (vertices : Array Point) : Array (Nat × Nat) := Id.run do
-  let crossings := findVerticalEdgeCrossings y vertices
-  let mut intervals : Array (Nat × Nat) := #[]
-  -- Pair up crossings: first is opening, second is closing
-  let mut i := 0
-  while i + 1 < crossings.size do
-    -- After odd number of crossings from left, we're inside
-    intervals := intervals.push (crossings[i]!, crossings[i+1]!)
-    i := i + 2
-  return intervals
-
--- Find all x-coordinates where polygon has a vertical edge at y (edge spans y)
--- and also horizontal edges at y (edge is at y)
-def findEdgeCrossingsAtY (y : Nat) (vertices : Array Point) : Array Nat := Id.run do
-  let n := vertices.size
-  let mut crossings : Array Nat := #[]
-  for i in [0:n] do
-    let v1 := vertices[i]!
-    let v2 := vertices[(i + 1) % n]!
-    -- Vertical edge spanning y
-    if v1.x == v2.x then
-      let minY := min v1.y v2.y
-      let maxY := max v1.y v2.y
-      if minY <= y && y <= maxY then
-        crossings := crossings.push v1.x
-    -- Horizontal edge at y
-    else if v1.y == y && v2.y == y then
-      crossings := crossings.push (min v1.x v2.x)
-      crossings := crossings.push (max v1.x v2.x)
-  -- Remove duplicates from sorted array
-  let sorted := crossings.qsort (· < ·)
-  let mut result : Array Nat := #[]
-  for x in sorted do
-    if result.isEmpty || result.back! != x then
-      result := result.push x
-  return result
-
--- Check if the horizontal segment [minX, maxX] at height y is entirely valid
--- Uses polygon structure: check transition points and midpoints of segments
-def isRowValidFast (y : Nat) (minX maxX : Nat) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) : Bool := Id.run do
-  -- Check endpoints first
-  if !isGreenOrRed { x := minX, y } vertices redSet then return false
-  if !isGreenOrRed { x := maxX, y } vertices redSet then return false
-
-  -- Find all edge crossings at this y
-  let crossings := findEdgeCrossingsAtY y vertices
-
-  -- Filter crossings to those within our range
-  let relevantCrossings := crossings.filter (fun cx => minX < cx && cx < maxX)
-
-  -- Check each relevant crossing point
-  for cx in relevantCrossings do
-    if !isGreenOrRed { x := cx, y } vertices redSet then
-      return false
-
-  -- Check midpoint of each segment between consecutive points
-  let mut checkPoints : Array Nat := #[minX]
-  for cx in relevantCrossings do
-    checkPoints := checkPoints.push cx
-  checkPoints := checkPoints.push maxX
-
-  for i in [0:checkPoints.size - 1] do
-    let left := checkPoints[i]!
-    let right := checkPoints[i + 1]!
-    if right > left + 1 then
-      let mid := (left + right) / 2
-      if !isGreenOrRed { x := mid, y } vertices redSet then
-        return false
-
-  return true
-
--- Optimized rectangle validation
-def isValidRectangleFast (p1 p2 : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) : Bool := Id.run do
-  let minX := min p1.x p2.x
-  let maxX := max p1.x p2.x
-  let minY := min p1.y p2.y
-  let maxY := max p1.y p2.y
-
-  -- Check corners are red
-  if !redSet.contains (p1.x, p1.y) || !redSet.contains (p2.x, p2.y) then
-    return false
-
-  -- For efficiency, first check the four corners (two are red, two need validation)
-  -- Other two corners
-  if !isGreenOrRed { x := minX, y := maxY } vertices redSet then return false
-  if !isGreenOrRed { x := maxX, y := minY } vertices redSet then return false
-
-  -- Check each row in the rectangle
-  for y in [minY:maxY+1] do
-    if !isRowValidFast y minX maxX vertices redSet then
-      return false
-
-  return true
-
--- Brute force validation - check every point
-def isValidRectangleBruteForce (p1 p2 : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) : Bool := Id.run do
-  let minX := min p1.x p2.x
-  let maxX := max p1.x p2.x
-  let minY := min p1.y p2.y
-  let maxY := max p1.y p2.y
-
-  -- Check corners are red
-  if !redSet.contains (p1.x, p1.y) || !redSet.contains (p2.x, p2.y) then
-    return false
-
-  -- Check all points in rectangle are green or red
-  for y in [minY:maxY+1] do
-    for x in [minX:maxX+1] do
-      if !isGreenOrRed { x, y } vertices redSet then
-        return false
-
-  return true
-
--- Check if a point is valid (green or red) using only the information we have
--- For a rectilinear polygon, a point is green if:
--- 1. It's a red tile (vertex)
--- 2. It's on an edge between vertices
--- 3. It's inside the polygon
-def isValidPoint (p : Point) (vertices : Array Point) (redSet : Std.HashSet (Nat × Nat)) : Bool :=
-  isGreenOrRed p vertices redSet
-
--- For a rectangle to be valid, all points on its boundary AND interior must be valid
--- But we can't check all points. Instead, we use the polygon structure:
--- A rectangle is valid iff:
--- 1. All four corners are valid (at least two must be red)
--- 2. For each row y in [minY, maxY], the segment [minX, maxX] is entirely valid
---
--- A horizontal segment is entirely valid iff the polygon boundary doesn't
--- cross it in an "invalid" region (i.e., crossing from inside to outside)
-
--- Get unique y-coordinates where something interesting happens
+-- Get unique y-coordinates where something interesting happens (polygon vertices)
 def getSignificantYs (vertices : Array Point) (minY maxY : Nat) : Array Nat := Id.run do
   let mut ys : Std.HashSet Nat := {}
   -- Add all vertex y-coordinates
@@ -313,7 +132,7 @@ def isHorizontalSegmentValid (y : Nat) (minX maxX : Nat) (vertices : Array Point
 
   -- Check all relevant edge crossing points
   for x in relevantXs do
-    if !isValidPoint { x, y } vertices redSet then
+    if !isGreenOrRed { x, y } vertices redSet then
       return false
 
   -- Check midpoint between each consecutive pair (including endpoints)
@@ -334,7 +153,7 @@ def isHorizontalSegmentValid (y : Nat) (minX maxX : Nat) (vertices : Array Point
     let right := uniqueCheckPoints[i + 1]!
     -- Check midpoint
     let mid := (left + right) / 2
-    if !isValidPoint { x := mid, y } vertices redSet then
+    if !isGreenOrRed { x := mid, y } vertices redSet then
       return false
 
   return true
@@ -363,8 +182,8 @@ def maxValidRectangleArea (points : List Point) : Nat := Id.run do
           -- Quick check: all 4 corners must be valid
           let corner1Valid := redSet.contains (p1.x, p1.y)
           let corner2Valid := redSet.contains (p2.x, p2.y)
-          let corner3Valid := isValidPoint { x := minX, y := maxY } vertices redSet
-          let corner4Valid := isValidPoint { x := maxX, y := minY } vertices redSet
+          let corner3Valid := isGreenOrRed { x := minX, y := maxY } vertices redSet
+          let corner4Valid := isGreenOrRed { x := maxX, y := minY } vertices redSet
 
           if corner1Valid && corner2Valid && corner3Valid && corner4Valid then
             -- Get significant y-coordinates to check
