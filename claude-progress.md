@@ -209,3 +209,21 @@ Fixed several issues with Aristotle workflow prompting:
 - [16:50] Day 11 Phase A: Removed unused countPathsVia, cleaned up imports
 - [16:55] Day 11 Phase B+C+D: Added example-based specifications (parsing correctness via native_decide)
 - [16:58] Day 11 Phase E: No upstream candidates - memoized path counting is standard, partial def limits provability
+## 2025-12-11 16:35 - Session started
+- [05:45] Checked 2 pending Aristotle jobs (getSignificantYs theorems) - both FAILED
+  - Updated ARISTOTLE.md to move from Pending to Completed with FAILED status
+  - Cleaned up pending files
+- [05:50] Reviewed remaining 26 sorries across codebase:
+  - Day02 (5): String↔number reasoning (difficult)
+  - Day03 (2): Imperative loop invariants with Id.run (difficult)
+  - Day04 (7): Grid operations with partial def (difficult)
+  - Day05 (3): qsort properties (difficult)
+  - Day08 (3): qsort + generateEdges (difficult)
+  - Day09 (2): Id.run + HashSet membership (Aristotle failed)
+  - Basic (4): UnionFind with partial def (Aristotle failed on some)
+- [05:55] All remaining sorries are in "hard to prove" categories:
+  - Imperative loops with Id.run require loop invariant reasoning
+  - Partial defs lack termination proofs
+  - String manipulation requires toString reasoning
+  - qsort requires proving permutation properties
+- Day 12 not yet available (releases in ~23.5 hours at midnight EST)

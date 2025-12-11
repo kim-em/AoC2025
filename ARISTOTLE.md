@@ -6,8 +6,6 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
-| 6dbd7f8e-7db1-4714-9063-2643bca9cd97 | Day09_pending1.lean | 2025-12-11 11:10 | getSignificantYs_contains_minY |
-| 63d2809d-e843-4ac2-b64c-99946a2bf7ea | Day09_pending2.lean | 2025-12-11 11:10 | getSignificantYs_contains_maxY |
 
 ## Completed
 
@@ -30,3 +28,5 @@ Tracking automated theorem proving jobs sent to Aristotle.
 | d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | abandoned | componentSizes_length - project created but never started, file deleted |
 | a63a2521-460a-4023-9710-d02db4dae161 | Day09_pending1.lean | 1/1 proved | isOnSegment_not_endpoint_left - adapted for v4.24.1 |
 | f1eb46ad-ce92-43e7-9d10-af0cac9a9e4c | Day09_pending2.lean | 1/1 proved | isOnSegment_not_endpoint_right - adapted for v4.24.1 |
+| 6dbd7f8e-7db1-4714-9063-2643bca9cd97 | Day09_pending1.lean | FAILED | getSignificantYs_contains_minY - internal error |
+| 63d2809d-e843-4ac2-b64c-99946a2bf7ea | Day09_pending2.lean | FAILED | getSignificantYs_contains_maxY - internal error |

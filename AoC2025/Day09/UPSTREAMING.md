@@ -54,7 +54,7 @@ Collects y-coordinates where polygon validity changes (vertex y-coordinates plus
 
 This is an optimization technique for polygon validation - instead of checking all y-values, only check significant ones plus midpoints between them.
 
-**Status**: Two theorems (`getSignificantYs_contains_minY`, `getSignificantYs_contains_maxY`) pending Aristotle proof.
+**Status**: Two theorems (`getSignificantYs_contains_minY`, `getSignificantYs_contains_maxY`) have `sorry` proofs. Aristotle jobs failed (internal error). The theorems require reasoning about imperative loops with `Id.run` and `HashSet.insert` membership.
 
 ## Recommendation
 
