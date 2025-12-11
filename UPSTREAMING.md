@@ -16,3 +16,8 @@ Summary of potentially useful code that could be contributed to Mathlib or lean4
 
 - **UnionFind (Disjoint Set Union)**: Fundamental graph data structure with path compression and union by size
 - See `AoC2025/Day08/UPSTREAMING.md` for details
+
+## Day 10: Indicator Lights
+
+- **GF(2) Linear Algebra**: Gaussian elimination and minimum weight solution finder over binary field
+- See `AoC2025/Day10/UPSTREAMING.md` for details

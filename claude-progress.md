@@ -182,3 +182,12 @@ Fixed several issues with Aristotle workflow prompting:
   - isOnSegment_not_endpoint_left: proved (adapted proof for v4.24.1)
   - isOnSegment_not_endpoint_right: proved (adapted proof for v4.24.1)
   - Added Point.beq_self helper lemma for derived BEq instance
+- [11:30] Verification status summary:
+  - Day01, Day06, Day07, Day10: Fully proved
+  - Day09: 5/7 theorems proved; 2 sorries sent to Aristotle (getSignificantYs)
+  - Remaining sorries in: Day02 (5), Day03 (2), Day04 (7), Day05 (3), Day08 (3), Basic (4)
+  - Total: ~24 sorries across 6 files, mostly involving:
+    - String↔number conversions (Day02)
+    - Imperative loop invariants (Day03, Day04)
+    - qsort properties (Day05)
+    - Union-find operations (Basic, Day08)
