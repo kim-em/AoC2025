@@ -177,3 +177,8 @@ Fixed several issues with Aristotle workflow prompting:
 - [10:30] Submitted 2 theorems to Aristotle:
   - isOnSegment_not_endpoint_left (project a63a2521...)
   - isOnSegment_not_endpoint_right (project f1eb46ad...)
+## 2025-12-11 10:59 - Session started
+- [11:05] Incorporated 2 Aristotle results for Day09:
+  - isOnSegment_not_endpoint_left: proved (adapted proof for v4.24.1)
+  - isOnSegment_not_endpoint_right: proved (adapted proof for v4.24.1)
+  - Added Point.beq_self helper lemma for derived BEq instance

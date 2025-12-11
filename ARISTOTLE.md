@@ -6,8 +6,8 @@ Tracking automated theorem proving jobs sent to Aristotle.
 
 | Project ID | File | Submitted | Description |
 |------------|------|-----------|-------------|
-| a63a2521-460a-4023-9710-d02db4dae161 | Day09_pending1.lean | 2025-12-11 10:30 | isOnSegment_not_endpoint_left |
-| f1eb46ad-ce92-43e7-9d10-af0cac9a9e4c | Day09_pending2.lean | 2025-12-11 10:30 | isOnSegment_not_endpoint_right |
+| 6dbd7f8e-7db1-4714-9063-2643bca9cd97 | Day09_pending1.lean | 2025-12-11 11:10 | getSignificantYs_contains_minY |
+| 63d2809d-e843-4ac2-b64c-99946a2bf7ea | Day09_pending2.lean | 2025-12-11 11:10 | getSignificantYs_contains_maxY |
 
 ## Completed
 
@@ -28,3 +28,5 @@ Tracking automated theorem proving jobs sent to Aristotle.
 | ee7328d5-3bfe-422b-8e9a-3984c8e977ed | Basic_pending3.lean | 0/1 proved | union_preserves_size - not proved |
 | 5cb7dfa9-fa0d-459f-a259-1146d9c4b0c1 | Basic_pending4.lean | 0/1 proved | union_self - not proved |
 | d2837dbc-9fa9-4571-96c4-8bf1e4bf81b8 | Basic_pending5.lean | abandoned | componentSizes_length - project created but never started, file deleted |
+| a63a2521-460a-4023-9710-d02db4dae161 | Day09_pending1.lean | 1/1 proved | isOnSegment_not_endpoint_left - adapted for v4.24.1 |
+| f1eb46ad-ce92-43e7-9d10-af0cac9a9e4c | Day09_pending2.lean | 1/1 proved | isOnSegment_not_endpoint_right - adapted for v4.24.1 |

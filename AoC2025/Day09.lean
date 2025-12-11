@@ -247,12 +247,24 @@ theorem rectangleArea_comm (p1 p2 : Point) : rectangleArea p1 p2 = rectangleArea
       · omega
       · omega
 
+-- Helper to prove p == p for derived BEq on Point
+@[simp] theorem Point.beq_self (p : Point) : (p == p) = true := by
+  show instBEqPoint.beq p p = true
+  unfold instBEqPoint.beq
+  simp
+
 -- isOnSegment excludes endpoints
 theorem isOnSegment_not_endpoint_left (p a b : Point) (h : isOnSegment p a b = true) : p ≠ a := by
-  sorry -- needs Aristotle: involves BEq on Point structure
+  unfold isOnSegment at h
+  intro hp
+  subst hp
+  simp at h
 
 theorem isOnSegment_not_endpoint_right (p a b : Point) (h : isOnSegment p a b = true) : p ≠ b := by
-  sorry -- needs Aristotle: involves BEq on Point structure
+  unfold isOnSegment at h
+  intro hp
+  subst hp
+  simp at h
 
 -- isOnSegment only works for axis-aligned segments
 -- (for non-axis-aligned, always returns false)
