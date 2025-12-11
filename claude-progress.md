@@ -206,3 +206,6 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-11 16:30] Day 11 Part 2: `473930047491888` → correct
 - [16:30] Day 11 Part 1: `724` → correct (DAG path counting)
 - [16:32] Day 11 Part 2: `473930047491888` → correct (paths via waypoints dac & fft)
+- [16:50] Day 11 Phase A: Removed unused countPathsVia, cleaned up imports
+- [16:55] Day 11 Phase B+C+D: Added example-based specifications (parsing correctness via native_decide)
+- [16:58] Day 11 Phase E: No upstream candidates - memoized path counting is standard, partial def limits provability

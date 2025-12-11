@@ -20,7 +20,7 @@ def parseLine (line : String) : Option (String × Array String) :=
 def parseGraph (input : String) : Graph :=
   input.trim.splitOn "\n"
   |>.filterMap parseLine
-  |>.foldl (fun m (name, children) => m.insert name children) .empty
+  |>.foldl (fun m (name, children) => m.insert name children) (HashMap.emptyWithCapacity 1000)
 
 /-- Count paths from a node to target using memoization.
     Returns the updated memo table and the count. -/
@@ -41,13 +41,6 @@ partial def countPathsTo (graph : Graph) (node : String) (target : String)
         (memo, 0)
       (memo'.insert key total, total)
 
-/-- Count paths from start to target that pass through waypoint -/
-def countPathsVia (graph : Graph) (start waypoint target : String)
-    (memo : HashMap String Nat) : HashMap String Nat × Nat :=
-  let (memo', toWaypoint) := countPathsTo graph start waypoint memo
-  let (memo'', fromWaypoint) := countPathsTo graph waypoint target memo'
-  (memo'', toWaypoint * fromWaypoint)
-
 /-- Count paths from start to target that pass through both waypoints (in any order) -/
 def countPathsViaBoth (graph : Graph) (start wp1 wp2 target : String)
     (memo : HashMap String Nat) : HashMap String Nat × Nat :=
@@ -62,5 +55,16 @@ def countPathsViaBoth (graph : Graph) (start wp1 wp2 target : String)
   let (memo6, wp1ToTarget) := countPathsTo graph wp1 target memo5
   let count2 := toWp2 * wp2ToWp1 * wp1ToTarget
   (memo6, count1 + count2)
+
+-- Specification theorems
+
+/-- Example: parsing "foo: bar baz" gives expected result -/
+example : parseLine "foo: bar baz" = some ("foo", #["bar", "baz"]) := by native_decide
+
+/-- Example: parsing without ": " fails -/
+example : parseLine "foo bar" = none := by native_decide
+
+/-- Example: parsing with single child -/
+example : parseLine "node: out" = some ("node", #["out"]) := by native_decide
 
 end AoC2025.Day11
