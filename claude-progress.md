@@ -201,3 +201,8 @@ Fixed several issues with Aristotle workflow prompting:
   - Completed Phase E (upstream identification) for Day09 and Day10
   - Days with all proofs complete: 1, 6, 7, 9 (partial), 10
   - Remaining sorries: ~24 across Day02-05, Day08, Basic
+## 2025-12-11 16:26 - Session started
+- [2025-12-11 16:29] Day 11 Part 1: `724` → correct
+- [2025-12-11 16:30] Day 11 Part 2: `473930047491888` → correct
+- [16:30] Day 11 Part 1: `724` → correct (DAG path counting)
+- [16:32] Day 11 Part 2: `473930047491888` → correct (paths via waypoints dac & fft)
