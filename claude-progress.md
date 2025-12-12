@@ -227,3 +227,9 @@ Fixed several issues with Aristotle workflow prompting:
   - String manipulation requires toString reasoning
   - qsort requires proving permutation properties
 - Day 12 not yet available (releases in ~23.5 hours at midnight EST)
+## 2025-12-12 16:14 - Session started
+- [2025-12-12 16:42] Day 12 Part 1: `403` → correct
+- [2025-12-12 16:43] Day 12 Part 2: `0` → unknown
+- [2025-12-12] Day 12 Part 1: `403` → correct (area-based check: pieces fit if total area <= grid area)
+- [2025-12-12] Day 12 Part 2: Finale - narrative completion, no computation needed
+- All 12 available days now complete (24/24 stars for AoC 2025 so far)
