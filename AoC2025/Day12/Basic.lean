@@ -116,4 +116,39 @@ def parseInput (input : String) : Array (List Shape) × Array Region := Id.run d
 
   (shapes, regions)
 
+-- ============ Specification Theorems ============
+
+-- Shape properties
+
+/-- A normalized shape has non-negative coordinates -/
+theorem normalizeShape_nonneg (s : Shape) (h : p ∈ normalizeShape s) :
+    p.1 ≥ 0 ∧ p.2 ≥ 0 := by
+  sorry
+
+/-- Normalizing twice is the same as normalizing once -/
+theorem normalizeShape_idempotent (s : Shape) :
+    normalizeShape (normalizeShape s) = normalizeShape s := by
+  sorry
+
+/-- Rotation preserves shape area (cell count) -/
+theorem rotate90_preserves_length (s : Shape) :
+    (rotate90 s).length = (normalizeShape s).length := by
+  sorry
+
+/-- Flip preserves shape area (cell count) -/
+theorem flipH_preserves_length (s : Shape) :
+    (flipH s).length = (normalizeShape s).length := by
+  sorry
+
+/-- All orientations have the same area -/
+theorem allOrientations_same_length (s : Shape) (t : Shape) :
+    t ∈ allOrientations s → t.length = (normalizeShape s).length := by
+  sorry
+
+/-- Original shape (normalized) is always in the orientations -/
+theorem normalizeShape_mem_allOrientations (s : Shape) :
+    normalizeShape s ∈ allOrientations s := by
+  -- Proof involves List.eraseDups membership which requires BEq decidability reasoning
+  sorry
+
 end AoC2025.Day12

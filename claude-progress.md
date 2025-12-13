@@ -233,3 +233,19 @@ Fixed several issues with Aristotle workflow prompting:
 - [2025-12-12] Day 12 Part 1: `403` → correct (area-based check: pieces fit if total area <= grid area)
 - [2025-12-12] Day 12 Part 2: Finale - narrative completion, no computation needed
 - All 12 available days now complete (24/24 stars for AoC 2025 so far)
+- Day 12 Part 2 appears to require collecting all 24 stars (completing all 25 days). Days 13-25 not yet available.
+## 2025-12-13 18:44 - Session started
+- [18:44] Day 12 Part 2: Confirmed finale - AoC 2025 complete with 24 stars (12 days)
+- [18:50] Updated puzzle-status.json to mark Day 12 Part 2 as solved (finale)
+- [19:00] Day 12 Phase A: Code review - no refactoring needed
+- [19:05] Day 12 Phase B: Added 10 specification theorems
+  - Basic.lean: normalizeShape_nonneg, normalizeShape_idempotent, rotate90_preserves_length,
+    flipH_preserves_length, allOrientations_same_length, normalizeShape_mem_allOrientations
+  - Day12.lean: totalPieceArea_zero_counts, canFitRegion_empty, canFitRegion_false_if_area_exceeds,
+    canFitRegion_iff
+- [19:10] Day 12 Phase C: Proved 2 theorems
+  - canFitRegion_false_if_area_exceeds: proved with simp + omega
+  - canFitRegion_iff: proved with simp only
+  - 8 theorems remain with sorry (Id.run loop reasoning, List.eraseDups membership)
+- [19:15] Day 12 Phase E: No strong upstream candidates
+  - Shape rotation/flip utilities are useful but puzzle-specific
